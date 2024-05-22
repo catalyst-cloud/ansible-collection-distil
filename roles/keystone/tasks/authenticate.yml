@@ -1,0 +1,27 @@
+---
+
+# NOTE(callumdickinson): Fetching a token is not strictly required,
+# but it does speed up the average request (by ~1s) compared to using password auth each time.
+- name: Fetch auth token from Keystone (if password auth is configured)
+  run_once: true
+  when:
+    - not ansible_check_mode  # Do not use dynamic auth token in check mode.
+    - distil_keystone_ansible_auth_cloud | default({})
+    - "(distil_keystone_ansible_auth_cloud.auth_type | default('password')) != 'token'"
+  block:
+    # NOTE(dalees): Purposefully not using `auth`, `auth_token`, `validate_certs`
+    # so we can set load_envvars to false.
+    - name: Authenticate with Keystone to fetch auth token
+      openstack.cloud.auth:
+        cloud: "{{ distil_keystone_ansible_auth_cloud | default(omit) }}"
+    - name: Save Keystone auth token
+      ansible.builtin.set_fact:
+        distil_keystone_ansible_auth_cloud:
+          auth_type: "token"
+          auth:
+            auth_url: "{{ distil_keystone_ansible_auth_cloud.auth.auth_url }}"
+            auth_token: "{{ auth_token }}"
+          verify: "{{ distil_keystone_ansible_auth_cloud.verify | default(omit) }}"
+          # NOTE(dalees): load_envvars is "undocumented magic" but is *required*
+          # if there are `OS_` environment vars set for another cloud.
+          load_envvars: false

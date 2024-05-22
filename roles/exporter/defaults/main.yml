@@ -1,0 +1,15 @@
+---
+
+# Base subdirectory for this particular service.
+distil_exporter_base_dir: "{{ distil_base_dir }}/exporter"
+
+# Project name to use when managing service containers via Docker Compose.
+distil_exporter_compose_project_name: "distil-exporter"
+
+# Container name for the Distil Exporter service. Set to null to auto-generate.
+distil_exporter_container_name: "distil-exporter"
+
+# The time to wait for Distil Exporter to open its ports during startup, in seconds.
+distil_exporter_start_timeout: 300
+
+# Distil Exporter bind address and port are in the common role.

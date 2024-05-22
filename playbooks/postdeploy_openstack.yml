@@ -1,0 +1,11 @@
+---
+
+- name: Run post-deploy tasks for Distil OpenStack resources
+  hosts: distil:distil_api
+  become: true
+  serial: 1
+  tasks:
+    - name: Run post-deploy tasks for Distil Keystone resources
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.keystone
+        tasks_from: postdeploy

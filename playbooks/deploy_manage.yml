@@ -1,0 +1,29 @@
+---
+
+- name: Deploy Distil Manage (dedicated nodes)
+  hosts: distil_manage:!distil
+  become: true
+  serial: 1
+  tasks:
+    - name: Run pre-deploy tasks for Distil Manage
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.manage
+        tasks_from: predeploy
+    - name: Run pre-deploy tasks for Distil Base
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.base
+        tasks_from: predeploy
+    - name: Deploy Distil Base
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.base
+    - name: Deploy Distil Manage
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.manage
+    - name: Run post-deploy tasks for Distil Exporter
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.exporter
+        tasks_from: postdeploy
+    - name: Run post-deploy tasks for Distil Base
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.base
+        tasks_from: postdeploy

@@ -1,0 +1,11 @@
+---
+
+- name: Uninstall Distil Collector
+  hosts: distil:distil_collector
+  become: true
+  serial: 1
+  tasks:
+    - name: Uninstall Distil Collector
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.collector
+        tasks_from: uninstall

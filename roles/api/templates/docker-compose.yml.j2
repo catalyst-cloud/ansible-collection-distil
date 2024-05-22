@@ -1,0 +1,58 @@
+---
+
+services:
+  {{ distil_api_container_name | default('distil-api', true) }}:
+{% if distil_api_container_name %}
+    container_name: {{ distil_api_container_name }}
+{% endif %}
+    image: {{ distil_container_image_uri }}:{{ distil_container_image_tag }}
+    restart: always
+    network_mode: host
+    user: "{{ distil_user_uid }}:{{ distil_user_gid }}"
+    volumes:
+      - type: bind
+        source: {{ distil_etc_dir }}
+        target: /etc/distil
+        read_only: true
+      - type: bind
+        source: {{ distil_lib_dir }}
+        target: /var/lib/distil
+        read_only: false
+      - type: bind
+        source: {{ distil_log_dir }}
+        target: /var/log/distil
+        read_only: false
+      - type: bind
+        source: {{ distil_ssl_cert }}
+        target: {{ distil_ssl_cert }}
+        read_only: true
+      - type: bind
+        source: {{ distil_ssl_key }}
+        target: {{ distil_ssl_key }}
+        read_only: true
+      - type: bind
+        source: {{ distil_ssl_cacert }}
+        target: {{ distil_ssl_cacert }}
+        read_only: true
+      - type: bind
+        source: {{ distil_api_base_dir }}/distil-api.wsgi
+        target: /opt/distil/distil-api.wsgi
+        read_only: true
+    environment:
+      - REQUESTS_CA_BUNDLE={{ distil_ssl_cacert }}
+      - UWSGI_WSGI_ENV_BEHAVIOR=holy
+      - UWSGI_HTTPS={{ distil_api_address }}:{{ distil_api_port }},{{ distil_ssl_cert }},{{ distil_ssl_key }},HIGH
+      - UWSGI_HTTP_AUTO_CHUNKED=1
+      - UWSGI_HTTP_KEEPALIVE=1
+      - UWSGI_WORKERS=3
+      - UWSGI_THREADS=3
+      - UWSGI_LOGTO=/var/log/distil/distil-api-wsgi.log
+      - UWSGI_LOGFILE_CHMOD=644
+      - UWSGI_DIE_ON_TERM=true
+      - UWSGI_SHOW_CONFIG=true
+      - UWSGI_MASTER=true
+      - UWSGI_MAX_REQUESTS=1000
+    entrypoint:
+      - uwsgi
+    command:
+      - --wsgi-file=/opt/distil/distil-api.wsgi

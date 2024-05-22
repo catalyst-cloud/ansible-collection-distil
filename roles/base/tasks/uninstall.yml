@@ -1,0 +1,40 @@
+---
+
+- name: Import common variables
+  ansible.builtin.import_role:
+    name: common
+
+- name: Delete logrotate config file
+  ansible.builtin.file:
+    path: "{{ distil_logrotate_file }}"
+    state: absent
+
+- name: Delete logging directory
+  ansible.builtin.file:
+    path: "{{ distil_log_dir }}"
+    state: absent
+
+- name: Delete runtime file folder
+  ansible.builtin.file:
+    path: /var/lib/distil
+    state: absent
+
+- name: Delete Docker Compose directory
+  ansible.builtin.file:
+    path: /docker/compose/distil
+    state: absent
+
+- name: Delete base directory
+  ansible.builtin.file:
+    path: "{{ distil_base_dir }}"
+    state: absent
+
+- name: Delete service user
+  ansible.builtin.user:
+    name: distil
+    state: absent
+
+- name: Delete service group
+  ansible.builtin.group:
+    name: distil
+    state: absent

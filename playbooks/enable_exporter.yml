@@ -1,0 +1,11 @@
+---
+
+- name: Enable Distil Exporter
+  hosts: distil:distil_exporter
+  become: true
+  serial: 1
+  tasks:
+    - name: Enable Distil Exporter
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.exporter
+        tasks_from: enable

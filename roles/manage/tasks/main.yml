@@ -1,0 +1,5 @@
+---
+
+- name: Install Distil Manage
+  ansible.builtin.include_tasks:
+    file: install.yml

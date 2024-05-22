@@ -1,0 +1,16 @@
+---
+
+- name: Run pre-deploy tasks for Distil Collector
+  ansible.builtin.import_playbook: predeploy_collector.yml
+
+- name: Run pre-deploy tasks for Distil Exporter
+  ansible.builtin.import_playbook: predeploy_exporter.yml
+
+- name: Run pre-deploy tasks for Distil API
+  ansible.builtin.import_playbook: predeploy_api.yml
+
+- name: Run pre-deploy tasks for Distil Manage
+  ansible.builtin.import_playbook: predeploy_manage.yml
+
+- name: Run pre-deploy tasks for Distil OpenStack resources
+  ansible.builtin.import_playbook: predeploy_openstack.yml

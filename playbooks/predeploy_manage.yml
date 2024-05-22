@@ -1,0 +1,11 @@
+---
+
+- name: Run pre-deploy tasks for Distil Manage
+  hosts: distil:distil_manage
+  become: true
+  serial: 1
+  tasks:
+    - name: Run pre-deploy tasks for Distil Manage
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.manage
+        tasks_from: predeploy

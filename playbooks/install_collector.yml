@@ -1,0 +1,11 @@
+---
+
+- name: Install Distil Collector
+  hosts: distil:distil_collector
+  become: true
+  serial: 1
+  tasks:
+    - name: Install Distil Collector
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.collector
+        tasks_from: install

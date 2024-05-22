@@ -1,0 +1,29 @@
+---
+
+- name: Deploy Distil Collector (dedicated nodes)
+  hosts: distil_collector:!distil
+  become: true
+  serial: 1
+  tasks:
+    - name: Run pre-deploy tasks for Distil Collector
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.collector
+        tasks_from: predeploy
+    - name: Run pre-deploy tasks for Distil Base
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.base
+        tasks_from: predeploy
+    - name: Deploy Distil Base
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.base
+    - name: Deploy Distil Collector
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.collector
+    - name: Run post-deploy tasks for Distil Collector
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.collector
+        tasks_from: postdeploy
+    - name: Run post-deploy tasks for Distil Base
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.base
+        tasks_from: postdeploy

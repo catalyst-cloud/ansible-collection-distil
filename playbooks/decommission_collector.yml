@@ -1,0 +1,7 @@
+---
+
+- name: Disable Distil Collector (dedicated hosts)
+  ansible.builtin.import_playbook: disable_collector.yml
+
+- name: Uninstall Distil Collector (dedicated hosts)
+  ansible.builtin.import_playbook: uninstall_collector.yml

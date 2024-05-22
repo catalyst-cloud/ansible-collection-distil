@@ -1,0 +1,17 @@
+---
+
+- name: Install Distil Exporter
+  ansible.builtin.include_tasks:
+    file: install.yml
+
+- name: Enable Distil Exporter (restart if mounted files changed, or image updated)
+  ansible.builtin.include_tasks:
+    file: subtasks/enable.yml
+  vars:
+    distil_exporter_temp_pull: always
+    distil_exporter_temp_state: >-
+      {{
+        'restarted'
+        if (distil_base_temp_changed | default(False)) or distil_api_temp_changed
+        else 'present'
+      }}

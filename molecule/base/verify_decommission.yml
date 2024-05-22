@@ -1,0 +1,51 @@
+---
+
+- name: Verify Distil decommission on all hosts
+  hosts: distil
+  become: true
+  tasks:
+    - name: Check that all Distil containers have been destroyed
+      ansible.builtin.command:
+        cmd: docker ps --all
+      register: existing_containers
+      changed_when: false
+      failed_when: "'distil' in existing_containers.stdout"
+    - name: Check that all Distil container images have been removed
+      ansible.builtin.command:
+        cmd: docker image ls
+      register: container_images
+      changed_when: false
+      failed_when: "'ghcr.io/catalyst-cloud/distil-docker' in container_images.stdout"
+    - name: Check that the base directory does not exist
+      ansible.builtin.stat:
+        path: /opt/distil
+      register: base_dir
+      failed_when: base_dir.stat.exists | default(False)
+    - name: Check that the logging directory does not exist
+      ansible.builtin.stat:
+        path: /var/log/distil
+      register: log_dir
+      failed_when: log_dir.stat.exists | default(False)
+    - name: Check that the logrotate config file does not exist
+      ansible.builtin.stat:
+        path: /etc/logrotate.d/distil-logs
+      register: logrotate_file
+      failed_when: logrotate_file.stat.exists | default(False)
+    - name: Get user metadata
+      ansible.builtin.getent:
+        database: passwd
+    - name: Get group metadata
+      ansible.builtin.getent:
+        database: group
+    - name: Check that the Distil service user does not exist
+      ansible.builtin.assert:
+        that:
+          - "'distil' not in getent_passwd"
+        fail_msg: "Distil service user not deleted"
+        quiet: true
+    - name: Check that the Distil service group does not exist
+      ansible.builtin.assert:
+        that:
+          - "'distil' not in getent_group"
+        fail_msg: "Distil service group not deleted"
+        quiet: true

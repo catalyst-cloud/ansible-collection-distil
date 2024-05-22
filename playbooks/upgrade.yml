@@ -1,0 +1,19 @@
+---
+
+- name: Run pre-deploy tasks for Distil
+  ansible.builtin.import_playbook: predeploy.yml
+
+- name: Disable Distil
+  ansible.builtin.import_playbook: disable.yml
+
+- name: Install Distil
+  ansible.builtin.import_playbook: install.yml
+
+- name: Migrate Distil
+  ansible.builtin.import_playbook: migrate.yml
+
+- name: Enable Distil
+  ansible.builtin.import_playbook: enable.yml
+
+- name: Run post-deploy tasks for Distil
+  ansible.builtin.import_playbook: postdeploy.yml

@@ -1,0 +1,19 @@
+---
+
+- name: Uninstall Distil Collector
+  ansible.builtin.import_playbook: uninstall_collector.yml
+
+- name: Uninstall Distil Exporter
+  ansible.builtin.import_playbook: uninstall_exporter.yml
+
+- name: Uninstall Distil API
+  ansible.builtin.import_playbook: uninstall_api.yml
+
+- name: Uninstall Distil Manage
+  ansible.builtin.import_playbook: uninstall_manage.yml
+
+- name: Uninstall Distil Base
+  ansible.builtin.import_playbook: uninstall_base.yml
+
+- name: Uninstall Distil OpenStack resources
+  ansible.builtin.import_playbook: uninstall_openstack.yml

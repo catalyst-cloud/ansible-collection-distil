@@ -1,0 +1,11 @@
+---
+
+- name: Uninstall Distil Exporter
+  hosts: distil:distil_exporter
+  become: true
+  serial: 1
+  tasks:
+    - name: Uninstall Distil Exporter
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.exporter
+        tasks_from: uninstall

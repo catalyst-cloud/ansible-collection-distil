@@ -1,0 +1,17 @@
+# Distil API
+
+All commands should be run from the service directory.
+
+```bash
+cd {{ distil_api_base_dir }}
+```
+
+## Database Migration
+
+Run the following command to perform a migration on the Distil database.
+
+```bash
+docker compose run --rm {{ distil_db_manage_container_name | default('distil-db-manage', true) }}
+```
+
+Logs will be recorded to `{{ distil_log_dir }}/distil-db-manage.log`.

@@ -1,0 +1,19 @@
+---
+
+- name: Install Distil OpenStack resources
+  ansible.builtin.import_playbook: install_openstack.yml
+
+- name: Install Distil Base
+  ansible.builtin.import_playbook: install_base.yml
+
+- name: Install Distil Manage
+  ansible.builtin.import_playbook: install_manage.yml
+
+- name: Install Distil API
+  ansible.builtin.import_playbook: install_api.yml
+
+- name: Install Distil Exporter
+  ansible.builtin.import_playbook: install_exporter.yml
+
+- name: Install Distil Collector
+  ansible.builtin.import_playbook: install_collector.yml

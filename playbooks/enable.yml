@@ -1,0 +1,10 @@
+---
+
+- name: Enable Distil API
+  ansible.builtin.import_playbook: enable_api.yml
+
+- name: Enable Distil Exporter
+  ansible.builtin.import_playbook: enable_exporter.yml
+
+- name: Enable Distil Collector
+  ansible.builtin.import_playbook: enable_collector.yml

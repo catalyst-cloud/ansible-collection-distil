@@ -1,0 +1,31 @@
+---
+
+# A list of additional groups to add the Distil service user to.
+distil_user_groups: []
+
+# The location to install the Distil logrotate configuration file.
+distil_logrotate_file: "/etc/logrotate.d/distil-logs"
+
+distil_erp_driver: "jsonfile"  # Available drivers: jsonfile, odoo
+
+# distil_api_address is managed by the common role.
+# distil_api_port is managed by the common role.
+distil_api_ignore_products_in_quotations: []  # Used when services are collected, but not yet billed.
+
+distil_jsonfile_tax_rate: 0  # Percentage in decimal form
+distil_jsonfile_regions:
+  - "{{ distil_openstack_region }}"
+
+distil_odoo_version: null
+distil_odoo_hostname: "localhost"
+distil_odoo_port: 8069
+distil_odoo_protocol: "jsonrpc"
+distil_odoo_database: "openstack"
+distil_odoo_username: "openstack"
+distil_odoo_password: "123456"
+distil_odoo_region_mapping: {}  # Key is region name in OpenStack, value is region name in Odoo.
+distil_odoo_licensed_os_distros: []
+distil_odoo_extra_product_categories:
+  - "Database"
+  - "COE"
+distil_odoo_invisible_products: []

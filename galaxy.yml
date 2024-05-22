@@ -1,0 +1,24 @@
+---
+
+namespace: catalystcloud
+name: distil
+version: 1.0.0
+readme: README.md
+authors:
+  - Callum Dickinson <callum.dickinson@catalystcloud.nz>
+
+description: Ansible collection for the OpenStack Distil rating service.
+license:
+  - Apache-2.0
+tags:
+  - cloud
+  - application
+  - linux
+  - openstack
+  - distil
+  - catalystcloud
+dependencies:
+  community.docker: ">=3.8.1"
+  openstack.cloud: ">=1.10.0"
+repository: https://github.com/catalyst-cloud/ansible-collection-distil
+build_ignore: []

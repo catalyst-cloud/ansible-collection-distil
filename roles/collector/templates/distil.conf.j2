@@ -1,0 +1,49 @@
+[DEFAULT]
+debug = false
+log_file = /var/log/distil/distil-collector{% if distil_collector_name %}-{{ distil_collector_name }}{% endif %}.log
+timezone = {{ distil_timezone }}
+
+[collector]
+meter_mappings_file = /etc/distil/meter_mappings.yml
+transformer_file = /etc/distil/transformer.yml
+periodic_interval = {{ distil_collector_periodic_interval }}
+collect_window = {{ distil_collector_collect_window }}
+max_windows_per_cycle = {{ distil_collector_max_windows_per_cycle }}
+{% if distil_collector_name %}
+partitioning_suffix = {{ distil_collector_name }}
+{% else %}
+# partitioning_suffix =
+{% endif %}
+{% if distil_collector.include_domains | default([]) %}
+include_domains = {{ distil_collector.include_domains | join(", ") }}
+{% endif %}
+{% if distil_collector.ignore_domains | default([]) %}
+ignore_domains = {{ distil_collector.ignore_domains | join(", ") }}
+{% endif %}
+{% if distil_collector.include_projects | default([]) %}
+include_tenants = {{ distil_collector.include_projects | join(", ") }}
+{% endif %}
+{% if distil_collector.ignore_projects | default([]) %}
+ignore_tenants = {{ distil_collector.ignore_projects | join(", ") }}
+{% endif %}
+trust_sources = {{ distil_collector_trust_sources | join(", ") }}
+max_collection_start_age = {{ distil_collector_max_collection_start_age }}
+{% if distil_collector_exporter_enable %}
+enable_exporter = true
+exporter_host = {{ distil_collector_exporter_address }}
+exporter_port = {{ distil_collector.exporter_port | default(16799) }}
+{% endif %}
+
+[database]
+connection = {{ distil_database_connection_url }}
+backend = sqlalchemy
+
+[keystone_authtoken]
+auth_type = password
+auth_url = {{ distil_keystone_auth_url_full }}
+username = {{ distil_keystone_user_name }}
+password = {{ distil_keystone_user_password }}
+project_name = {{ distil_keystone_user_project }}
+user_domain_name = {{ distil_keystone_user_domain }}
+project_domain_name = {{ distil_keystone_user_domain }}
+region_name = {{ distil_openstack_region }}

@@ -1,0 +1,9 @@
+/var/log/distil/*.log {
+  compress
+  copytruncate
+  delaycompress
+  missingok
+  notifempty
+  daily
+  rotate 5
+}

@@ -1,0 +1,4 @@
+---
+
+- name: Uninstall Distil OpenStack resources
+  ansible.builtin.import_playbook: uninstall_openstack.yml

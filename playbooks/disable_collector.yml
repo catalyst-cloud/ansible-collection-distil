@@ -1,0 +1,11 @@
+---
+
+- name: Disable Distil Collector
+  hosts: distil:distil_collector
+  become: true
+  serial: 1
+  tasks:
+    - name: Disable Distil Collector
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.collector
+        tasks_from: disable

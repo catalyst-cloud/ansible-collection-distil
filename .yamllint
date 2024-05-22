@@ -1,0 +1,5 @@
+---
+
+ignore:
+  - changelogs
+  - roles/base/files/meter_mappings.yml

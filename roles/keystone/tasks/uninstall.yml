@@ -1,0 +1,22 @@
+---
+
+- name: Import common variables
+  ansible.builtin.import_role:
+    name: common
+
+- name: Authenticate with Keystone
+  ansible.builtin.include_tasks: authenticate.yml
+
+- name: Uninstall Keystone user and service
+  run_once: true
+  block:
+    - name: Delete Keystone catalog service
+      openstack.cloud.catalog_service:
+        name: "{{ distil_keystone_service_name }}"
+        state: absent
+        cloud: "{{ distil_keystone_ansible_auth_cloud | default(omit) }}"
+    - name: Delete Keystone user
+      openstack.cloud.identity_user:
+        name: "{{ distil_keystone_user_name }}"
+        state: absent
+        cloud: "{{ distil_keystone_ansible_auth_cloud | default(omit) }}"

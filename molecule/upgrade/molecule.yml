@@ -1,0 +1,64 @@
+---
+
+dependency:
+  name: galaxy
+  options:
+    requirements-file: requirements.yml
+
+driver:
+  name: default
+  options:
+    managed: false
+    ansible_connection_options:
+      ansible_connection: local
+
+platforms:
+  - name: localhost
+    groups:
+      - distil
+
+provisioner:
+  name: ansible
+  playbooks:
+    prepare: ../base/prepare.yml
+    converge: ../base/side_effect.yml
+    verify: ../base/verify.yml
+    side_effect: ../base/side_effect.yml
+    cleanup: ../base/cleanup.yml
+  inventory:
+    group_vars:
+      distil:
+        distil_database_hosts:
+          - "localhost:3306"
+        distil_database_username: "distil"
+        distil_database_password: "123456"
+        distil_database_name: "distil"
+        # NOTE(callumdickinson): Do not run Distil Keystone resource management
+        # in Molecule, as Keystone is not installed in the environment.
+        distil_keystone_enable: false
+
+verifier:
+  name: ansible
+
+scenario:
+  test_sequence:
+    - dependency
+    - cleanup
+    - syntax
+    - prepare
+    - check
+    - side_effect
+    - verify
+    - side_effect ../base/stop.yml
+    - verify ../base/verify_stop.yml
+    - side_effect ../base/enable.yml
+    - verify
+    - side_effect ../base/disable.yml
+    - verify ../base/verify_disable.yml
+    - side_effect ../base/enable.yml
+    - verify
+    - side_effect ../base/uninstall.yml
+    - verify ../base/verify_uninstall.yml
+    # Run uninstall again to ensure it works even if already uninstalled.
+    - side_effect ../base/uninstall.yml
+    - cleanup

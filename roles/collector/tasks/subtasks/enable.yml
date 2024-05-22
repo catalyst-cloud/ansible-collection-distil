@@ -1,0 +1,22 @@
+---
+
+- name: Run per-collector common tasks
+  ansible.builtin.include_tasks:
+    file: common.yml
+
+- name: Start service containers
+  community.docker.docker_compose_v2:
+    project_name: "{{ distil_collector_temp_compose_project_name }}"
+    project_src: "{{ distil_collector_temp_base_dir }}"
+    state: "{{ distil_collector_temp_state | default('present') }}"
+    pull: "{{ distil_collector_temp_pull | default('missing') }}"
+    recreate: "{{ distil_collector_temp_recreate | default('auto') }}"
+
+- name: Wait until access port is online (if Distil Collector Exporter is enabled)
+  ansible.builtin.wait_for:
+    host: "{{ ansible_default_ipv4.address }}"
+    port: "{{ distil_collector.exporter_port | default(distil_collector_exporter_port) }}"
+    timeout: "{{ distil_collector_exporter_start_timeout }}"
+  when:
+    - distil_collector_exporter_enable
+    - not ansible_check_mode

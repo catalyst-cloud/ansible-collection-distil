@@ -1,0 +1,18 @@
+---
+
+- name: Start MariaDB on localhost
+  hosts: localhost
+  become: true
+  tasks:
+    - name: Start MariaDB
+      community.docker.docker_container:
+        name: mariadb
+        image: mariadb:11.3.2
+        state: started
+        ports:
+          - "127.0.0.1:3306:3306"
+        env:
+          MARIADB_RANDOM_ROOT_PASSWORD: "1"
+          MARIADB_USER: "{{ distil_mariadb_username }}"
+          MARIADB_PASSWORD: "{{ distil_mariadb_password }}"
+          MARIADB_DATABASE: "{{ distil_database_name }}"

@@ -1,0 +1,49 @@
+---
+
+- name: Import common variables
+  ansible.builtin.import_role:
+    name: common
+
+- name: Authenticate with Keystone
+  ansible.builtin.include_tasks: authenticate.yml
+
+- name: Install Keystone user and service
+  run_once: true
+  block:
+    - name: Create Keystone user
+      openstack.cloud.identity_user:
+        name: "{{ distil_keystone_user_name }}"
+        password: "{{ distil_keystone_user_password }}"
+        email: "{{ distil_keystone_user_email }}"
+        default_project: "{{ distil_keystone_user_project }}"
+        domain: "{{ distil_keystone_user_domain }}"
+        enabled: true
+        cloud: "{{ distil_keystone_ansible_auth_cloud | default(omit) }}"
+    - name: Create Keystone roles
+      openstack.cloud.identity_role:
+        name: "{{ item }}"
+        cloud: "{{ distil_keystone_ansible_auth_cloud | default(omit) }}"
+      loop: "{{ distil_keystone_role_create }}"
+    - name: Assign roles to Keystone user
+      openstack.cloud.role_assignment:
+        user: "{{ distil_keystone_user_name }}"
+        role: "{{ item }}"
+        project: "{{ distil_keystone_user_project }}"
+        domain: "{{ distil_keystone_user_domain }}"
+        cloud: "{{ distil_keystone_ansible_auth_cloud | default(omit) }}"
+      loop: "{{ distil_keystone_user_roles }}"
+    - name: Create Keystone catalog service
+      openstack.cloud.catalog_service:
+        name: "{{ distil_keystone_service_name }}"
+        description: "{{ distil_keystone_service_description }}"
+        type: "{{ distil_keystone_service_type }}"
+        cloud: "{{ distil_keystone_ansible_auth_cloud | default(omit) }}"
+    - name: Create Keystone catalog service endpoints
+      openstack.cloud.endpoint:
+        service: "{{ distil_keystone_service_name }}"
+        region: "{{ distil_openstack_region }}"
+        url: "{{ distil_keystone_endpoint_url }}"
+        endpoint_interface: "{{ item }}"
+        enabled: true
+        cloud: "{{ distil_keystone_ansible_auth_cloud | default(omit) }}"
+      loop: "{{ distil_keystone_service_interfaces }}"

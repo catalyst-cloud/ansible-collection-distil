@@ -1,0 +1,19 @@
+---
+
+- name: Deploy Distil OpenStack resources
+  ansible.builtin.import_playbook: deploy_openstack.yml
+
+- name: Deploy Distil (nodes running all services)
+  ansible.builtin.import_playbook: deploy_distil.yml
+
+- name: Deploy Distil Manage (dedicated nodes)
+  ansible.builtin.import_playbook: deploy_manage.yml
+
+- name: Deploy Distil API (dedicated nodes)
+  ansible.builtin.import_playbook: deploy_api.yml
+
+- name: Deploy Distil Exporter (dedicated nodes)
+  ansible.builtin.import_playbook: deploy_exporter.yml
+
+- name: Deploy Distil Collector (dedicated nodes)
+  ansible.builtin.import_playbook: deploy_collector.yml

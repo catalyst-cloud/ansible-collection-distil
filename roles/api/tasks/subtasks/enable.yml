@@ -1,0 +1,16 @@
+---
+
+- name: Start service containers
+  community.docker.docker_compose_v2:
+    project_name: "{{ distil_api_compose_project_name }}"
+    project_src: "{{ distil_api_base_dir }}"
+    state: "{{ distil_api_temp_state | default('present') }}"
+    pull: "{{ distil_api_temp_pull | default('missing') }}"
+    recreate: "{{ distil_api_temp_recreate | default('auto') }}"
+
+- name: Wait until access port is online
+  ansible.builtin.wait_for:
+    host: "{{ ansible_default_ipv4.address }}"
+    port: "{{ distil_api_port }}"
+    timeout: "{{ distil_api_start_timeout }}"
+  when: not ansible_check_mode

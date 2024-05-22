@@ -1,0 +1,70 @@
+[DEFAULT]
+# Enable verbose logging output (log level set to `DEBUG`).
+# NOTE(callumdickinson): Avoid enabling `debug` in production,
+# until an upstream fix to avoid logging the ERP password has been made to odoorpc.
+# https://github.com/OCA/odoorpc/issues/70
+debug = false
+# Distil service logging configuration.
+log_dir = /var/log/distil
+# Distil service timezone.
+timezone = {{ distil_timezone }}
+# ERP driver to use when communicating with Distil.
+erp_driver = {{ distil_erp_driver }}
+# Distil API bind address and port.
+# Only used when using the `distil-api` command directly (for development purposes only).
+host = {{ distil_api_address }}
+port = {{ distil_api_port }}
+
+[cache]
+enabled = true
+backend = dogpile.cache.memory
+expiration_time = 86400
+
+[database]
+connection = {{ distil_database_connection_url }}
+backend = sqlalchemy
+
+[jsonfile]
+products_file_path = /etc/distil/products.json
+tax_rate = {{ distil_jsonfile_tax_rate }}
+{% if distil_api_ignore_products_in_quotations %}
+ignore_products_in_quotations = {{ distil_api_ignore_products_in_quotations | join(", ") }}
+{% else %}
+# ignore_products_in_quotations =
+{% endif %}
+
+[keystone_authtoken]
+auth_type = password
+auth_url = {{ distil_keystone_auth_url_full }}
+username = {{ distil_keystone_user_name }}
+password = {{ distil_keystone_user_password }}
+project_name = {{ distil_keystone_user_project }}
+user_domain_name = {{ distil_keystone_user_domain }}
+project_domain_name = {{ distil_keystone_user_domain }}
+region_name = {{ distil_openstack_region }}
+
+[odoo]
+{% if distil_odoo_version %}
+version = {{ distil_odoo_version }}
+{% else %}
+# version =
+{% endif %}
+hostname = {{ distil_odoo_hostname }}
+port = {{ distil_odoo_port }}
+protocol = {{ distil_odoo_protocol }}
+database = {{ distil_odoo_database }}
+user = {{ distil_odoo_username }}
+password = {{ distil_odoo_password }}
+{% if distil_odoo_region_mapping %}
+region_mapping = {{ distil_odoo_region_mapping.items() | map("join", ":") | join(",") }}
+{% endif %}
+licensed_os_distro_list = {{ distil_odoo_licensed_os_distros | join(", ") }}
+{% if distil_odoo_extra_product_categories %}
+extra_product_category_list = {{ distil_odoo_extra_product_categories | join(", ") }}
+{% endif %}
+invisible_products = {% if distil_odoo_invisible_products %}{{ distil_odoo_invisible_products | join(", ") }}{% endif +%}
+{% if distil_api_ignore_products_in_quotations %}
+ignore_products_in_quotations = {{ distil_api_ignore_products_in_quotations | join(", ") }}
+{% else %}
+# ignore_products_in_quotations =
+{% endif %}

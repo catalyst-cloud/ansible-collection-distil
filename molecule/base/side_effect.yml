@@ -1,0 +1,4 @@
+---
+
+- name: Upgrade Distil
+  ansible.builtin.import_playbook: catalystcloud.distil.upgrade

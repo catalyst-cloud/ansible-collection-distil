@@ -1,0 +1,7 @@
+---
+
+- name: Disable Distil API (dedicated hosts)
+  ansible.builtin.import_playbook: disable_api.yml
+
+- name: Uninstall Distil API (dedicated hosts)
+  ansible.builtin.import_playbook: uninstall_api.yml

@@ -1,0 +1,4 @@
+---
+
+- name: Deploy Distil
+  ansible.builtin.import_playbook: catalystcloud.distil.deploy

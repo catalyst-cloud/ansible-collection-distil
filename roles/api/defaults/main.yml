@@ -1,0 +1,15 @@
+---
+
+# Base subdirectory for this particular service.
+distil_api_base_dir: "{{ distil_base_dir }}/api"
+
+# Project name to use when managing service containers via Docker Compose.
+distil_api_compose_project_name: "distil-api"
+
+# Container name for the Distil API service. Set to null to auto-generate.
+distil_api_container_name: "distil-api"
+
+# The time to wait for Distil API to open its ports during startup, in seconds.
+distil_api_start_timeout: 300
+
+# Distil API external hostname, bind address and port are in the common role.

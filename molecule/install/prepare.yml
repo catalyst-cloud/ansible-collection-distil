@@ -1,0 +1,30 @@
+---
+
+- name: Prepare Base
+  ansible.builtin.import_playbook: ../base/prepare.yml
+
+- name: Initialise Distil database
+  hosts: distil[0]
+  become: true
+  serial: 1
+  tasks:
+    - name: Install Distil Base
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.base
+        tasks_from: install
+    - name: Install Distil Manage
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.manage
+        tasks_from: install
+    - name: Migrate Distil
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.manage
+        tasks_from: migrate
+    - name: Uninstall Distil Manage
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.manage
+        tasks_from: uninstall
+    - name: Uninstall Distil Base
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.base
+        tasks_from: uninstall

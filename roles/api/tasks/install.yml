@@ -1,0 +1,42 @@
+---
+
+- name: Import common variables
+  ansible.builtin.import_role:
+    name: common
+
+- name: Create service directory
+  ansible.builtin.file:
+    path: "{{ distil_api_base_dir }}"
+    state: directory
+    owner: root
+    group: "{{ distil_docker_group }}"
+    mode: "0770"
+
+- name: Create service README file
+  ansible.builtin.template:
+    src: README.md.j2
+    dest: "{{ distil_api_base_dir }}/README.md"
+    owner: root
+    group: root
+    mode: "0640"
+
+- name: Create WSGI script file
+  ansible.builtin.copy:
+    src: distil-api.wsgi
+    dest: "{{ distil_api_base_dir }}/distil-api.wsgi"
+    owner: root
+    group: root
+    mode: "0644"
+  register: distil_api_temp_wsgi_file
+
+- name: Create service compose file
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ distil_api_base_dir }}/docker-compose.yml"
+    owner: root
+    group: "{{ distil_user_group }}"
+    mode: "0640"
+
+- name: Mark service as changed (if mounted files are changed)
+  ansible.builtin.set_fact:
+    distil_api_temp_changed: "{{ distil_api_temp_wsgi_file.changed }}"

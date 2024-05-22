@@ -1,0 +1,150 @@
+---
+
+- name: Import common variables
+  ansible.builtin.import_role:
+    name: common
+
+- name: Create service group with fixed GID
+  ansible.builtin.group:
+    name: "{{ distil_user_group }}"
+    gid: "{{ distil_user_gid }}"
+    system: true
+
+- name: Create service user with fixed UID/GID
+  ansible.builtin.user:
+    name: "{{ distil_user_name }}"
+    uid: "{{ distil_user_uid }}"
+    group: "{{ distil_user_group }}"
+    groups: "{{ distil_user_groups }}"
+    system: true
+    home: "{{ distil_lib_dir }}"
+    create_home: false
+    shell: /bin/false
+
+- name: Create base directory
+  ansible.builtin.file:
+    path: "{{ distil_base_dir }}"
+    state: directory
+    owner: root
+    group: "{{ distil_docker_group }}"
+    mode: "0750"
+
+- name: Create configuration directory
+  ansible.builtin.file:
+    path: "{{ distil_config_dir }}"
+    state: directory
+    owner: root
+    group: "{{ distil_user_group }}"
+    mode: "0750"
+
+- name: Create runtime directory
+  ansible.builtin.file:
+    path: "{{ distil_lib_dir }}"
+    state: directory
+    owner: "{{ distil_user_name }}"
+    group: "{{ distil_user_group }}"
+    mode: "0770"
+
+- name: Create logging directory
+  ansible.builtin.file:
+    path: "{{ distil_log_dir }}"
+    state: directory
+    owner: "{{ distil_user_name }}"
+    group: "{{ distil_log_group }}"
+    mode: "{{ distil_log_dir_mode }}"
+
+- name: Recursively set log subdirectory permissions
+  ansible.builtin.command:
+    argv:
+      - find
+      - "{{ distil_log_dir }}"
+      - -type
+      - d
+      - -exec
+      - chmod
+      - --changes
+      - "{{ distil_log_dir_mode }}"
+      - '{}'
+      - '\;'
+  register: distil_base_temp_chmod_dirs
+  changed_when: "'changed' in distil_base_temp_chmod_dirs.stdout"
+
+- name: Recursively set log file permissions
+  ansible.builtin.command:
+    argv:
+      - find
+      - "{{ distil_log_dir }}"
+      - -type
+      - f
+      - exec
+      - chmod
+      - --changes
+      - "{{ distil_log_file_mode }}"
+      - '{}'
+      - '\;'
+  register: distil_base_temp_chmod_files
+  changed_when: "'changed' in distil_base_temp_chmod_files.stdout"
+
+- name: Create base configuration file (distil.conf)
+  ansible.builtin.template:
+    src: distil.conf.j2
+    dest: "{{ distil_config_dir }}/distil.conf"
+    owner: root
+    group: "{{ distil_user_group }}"
+    mode: "0640"
+  register: distil_base_temp_config_file
+
+- name: Create meter mappings file (meter_mappings.yml)
+  ansible.builtin.copy:
+    src: meter_mappings.yml
+    dest: "{{ distil_config_dir }}/meter_mappings.yml"
+    owner: root
+    group: "{{ distil_user_group }}"
+    mode: "0644"
+  register: distil_base_temp_metermappings_file
+
+- name: Create transformer file (transformer.yml)
+  ansible.builtin.copy:
+    src: transformer.yml
+    dest: "{{ distil_config_dir }}/transformer.yml"
+    owner: root
+    group: "{{ distil_user_group }}"
+    mode: "0644"
+  register: distil_base_temp_transformer_file
+
+- name: Create JSON file ERP driver products file (products.json)
+  ansible.builtin.template:
+    src: products.json.j2
+    dest: "{{ distil_config_dir }}/products.json"
+    owner: root
+    group: "{{ distil_user_group }}"
+    mode: "0644"
+  register: distil_base_temp_products_file
+
+- name: Create Keystone policy file (policy.yaml)
+  ansible.builtin.copy:
+    src: policy.yaml
+    dest: "{{ distil_config_dir }}/policy.yaml"
+    owner: root
+    group: "{{ distil_user_group }}"
+    mode: "0644"
+  register: distil_base_temp_policy_file
+
+- name: Create logrotate config file
+  ansible.builtin.copy:
+    src: distil-logs.logrotate
+    dest: /etc/logrotate.d/distil-logs
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Mark Distil Base as changed (if service files are changed)
+  ansible.builtin.set_fact:
+    distil_base_temp_changed: >-
+      {{
+        distil_base_temp_config_file.changed
+        or distil_base_temp_metermappings_file.changed
+        or distil_base_temp_transformer_file.changed
+        or distil_base_temp_products_file.changed
+        or distil_base_temp_policy_file.changed
+      }}
