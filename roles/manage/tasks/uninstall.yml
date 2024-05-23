@@ -14,7 +14,7 @@
     project_name: "{{ distil_manage_compose_project_name }}"
     project_src: "{{ distil_manage_base_dir }}"
     state: absent
-    remove_images: true
+    remove_images: all
     remove_volumes: true
     remove_orphans: false
   when: distil_manage_temp_dockercompose_yml.stat.exists | default(False)

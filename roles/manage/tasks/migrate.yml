@@ -10,4 +10,5 @@
     chdir: "{{ distil_manage_base_dir }}"
   register: distil_temp_db_manage
   changed_when: "'Running upgrade' in distil_temp_db_manage.stderr"
+  when: not ansible_check_mode
   run_once: true
