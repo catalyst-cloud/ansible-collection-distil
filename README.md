@@ -134,7 +134,16 @@ Ensure these options are configured when using the `odoo` ERP driver.
 
 ## Playbooks
 
-To run a Distil collection playbook from another playbook, import it into your playbook using
+Once the collection has been installed, the playbooks documented below can be run
+from the command line using the `ansible-playbook` command.
+
+```bash
+ansible-playbook -i <path-to-inventory> catalystcloud.distil.deploy
+```
+
+You can also optionally use `--limit` to run playbooks on specific hosts.
+
+To run a Distil collection playbook from inside another playbook, import it into your playbook using
 [`ansible.builtin.import_playbook`](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/import_playbook_module.html).
 
 ```yaml
