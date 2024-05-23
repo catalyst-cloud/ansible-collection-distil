@@ -46,13 +46,15 @@ make sure the target hosts have at least one of the above groups assigned to it.
 * `distil_base_dir` - The base directory under which Distil service files will be installed. Default is `/opt/distil`.
 * `distil_config_dir` - The host directory to install Distil configuration files to. Default is `{{ distil_base_dir }}/etc`.
 * `distil_lib_dir` - The host directory to use for Distil runtime files. Default is `{{ distil_base_dir }}/lib`.
-* `distil_log_dir` - The target directory for Distil service log files on the host. Default is `/var/log/distil`.
 * `distil_docker_group` - The group to assign to directories that need to be accessible by users who can use Docker. Default is `root`.
+* `distil_log_dir` - The target directory for Distil service log files on the host. Default is `/var/log/distil`.
 * `distil_log_group` - The group to assign to the logging directory. Default is to assign the Distil service group.
+* `distil_log_dir_mode` - The permissions for the logging directory. Default is `"0750"`.
+* `distil_log_file_mode` - The permissions for log files within the logging directory. Default is `"0640"`.
 * `distil_ssl_cert` - Service SSL certificate filepath on the host.
 * `distil_ssl_key` - Service SSL private key filepath on the host.
 * `distil_ssl_cacert` - Service CA certificate bundle filepath on the host.
-* `distil_openstack_region` - The name of the OpenStack region being deployed to. Distil must be deployed separately to all regions.
+* `distil_openstack_region` - The name of the OpenStack region being deployed to. Distil must be deployed individually to all regions.
 * `distil_user_name` - Distil service user name. Default is `distil`.
 * `distil_user_group` - Distil service group name. Default is `distil`.
 * `distil_user_uid` - UID for the created service user. **Must be unique**. Default is `305`.

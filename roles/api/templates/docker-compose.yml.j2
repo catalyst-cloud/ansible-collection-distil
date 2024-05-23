@@ -47,7 +47,7 @@ services:
       - UWSGI_WORKERS=3
       - UWSGI_THREADS=3
       - UWSGI_LOGTO=/var/log/distil/distil-api-wsgi.log
-      - UWSGI_LOGFILE_CHMOD=644
+      - UWSGI_LOGFILE_CHMOD={{ distil_log_file_mode }}
       - UWSGI_DIE_ON_TERM=true
       - UWSGI_SHOW_CONFIG=true
       - UWSGI_MASTER=true
