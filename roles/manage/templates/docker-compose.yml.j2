@@ -1,7 +1,7 @@
 ---
 
 services:
-  {{ distil_db_manage_container_name | default('distil-db-manage', true) }}:
+  {{ distil_db_manage_container_name | default('distil-db-manage', True) }}:
 {% if distil_db_manage_container_name %}
     container_name: {{ distil_db_manage_container_name }}
 {% endif %}

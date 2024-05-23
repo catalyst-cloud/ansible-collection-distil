@@ -1,7 +1,7 @@
 ---
 
 services:
-  {{ distil_exporter_container_name | default('distil-exporter', true) }}:
+  {{ distil_exporter_container_name | default('distil-exporter', True) }}:
 {% if distil_exporter_container_name %}
     container_name: {{ distil_exporter_container_name }}
 {% endif %}

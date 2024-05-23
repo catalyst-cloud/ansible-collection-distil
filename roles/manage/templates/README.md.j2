@@ -11,7 +11,7 @@ cd {{ distil_api_base_dir }}
 Run the following command to perform a migration on the Distil database.
 
 ```bash
-docker compose run --rm {{ distil_db_manage_container_name | default('distil-db-manage', true) }}
+docker compose run --rm {{ distil_db_manage_container_name | default('distil-db-manage', True) }}
 ```
 
 Logs will be recorded to `{{ distil_log_dir }}/distil-db-manage.log`.
