@@ -55,33 +55,13 @@
 
 - name: Recursively set log subdirectory permissions
   ansible.builtin.command:
-    argv:
-      - find
-      - "{{ distil_log_dir }}"
-      - -type
-      - d
-      - -exec
-      - chmod
-      - --changes
-      - "{{ distil_log_dir_mode }}"
-      - '{}'
-      - '\;'
+    cmd: 'find "{{ distil_log_dir }}" -type d -exec chmod --changes {{ distil_log_dir_mode }} {} \;'
   register: distil_base_temp_chmod_dirs
   changed_when: "'changed' in distil_base_temp_chmod_dirs.stdout"
 
 - name: Recursively set log file permissions
   ansible.builtin.command:
-    argv:
-      - find
-      - "{{ distil_log_dir }}"
-      - -type
-      - f
-      - exec
-      - chmod
-      - --changes
-      - "{{ distil_log_file_mode }}"
-      - '{}'
-      - '\;'
+    cmd: 'find "{{ distil_log_dir }}" -type f -exec chmod --changes {{ distil_log_file_mode }} {} \;'
   register: distil_base_temp_chmod_files
   changed_when: "'changed' in distil_base_temp_chmod_files.stdout"
 
