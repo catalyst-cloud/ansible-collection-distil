@@ -1,0 +1,13 @@
+---
+
+- name: Import common variables
+  ansible.builtin.import_role:
+    name: common
+
+- name: Migrate Distil database
+  ansible.builtin.command:
+    cmd: docker compose --file docker-ompose.yml run --rm distil-db-manage
+    chdir: "{{ distil_manage_base_dir }}"
+  register: distil_temp_db_manage
+  changed_when: "'Running upgrade' in distil_temp_db_manage.stderr"
+  run_once: true

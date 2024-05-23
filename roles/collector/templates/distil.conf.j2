@@ -1,6 +1,6 @@
 [DEFAULT]
 debug = false
-log_file = /var/log/distil/distil-collector{% if distil_collector_name %}-{{ distil_collector_name }}{% endif %}.log
+log_file = /var/log/distil/distil-collector{% if distil_collector_temp_name %}-{{ distil_collector_temp_name }}{% endif %}.log
 timezone = {{ distil_timezone }}
 
 [collector]
@@ -9,8 +9,8 @@ transformer_file = /etc/distil/transformer.yml
 periodic_interval = {{ distil_collector_periodic_interval }}
 collect_window = {{ distil_collector_collect_window }}
 max_windows_per_cycle = {{ distil_collector_max_windows_per_cycle }}
-{% if distil_collector_name %}
-partitioning_suffix = {{ distil_collector_name }}
+{% if distil_collector_temp_name %}
+partitioning_suffix = {{ distil_collector_temp_name }}
 {% else %}
 # partitioning_suffix =
 {% endif %}

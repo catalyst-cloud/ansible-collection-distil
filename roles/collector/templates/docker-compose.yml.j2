@@ -1,7 +1,7 @@
 ---
 
 services:
-  {{ distil_collector_temp_container_name | default(('distil-exporter-' + distil_collector_name) if distil_collector_name else 'distil_collector', True) }}:
+  {{ distil_collector_temp_container_name | default(('distil-exporter-' + distil_collector_temp_name) if distil_collector_temp_name else 'distil_collector', True) }}:
 {% if distil_collector_temp_container_name %}
     container_name: {{ distil_collector_temp_container_name }}
 {% endif %}
