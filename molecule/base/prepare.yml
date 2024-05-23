@@ -13,6 +13,6 @@
           - "127.0.0.1:3306:3306"
         env:
           MARIADB_RANDOM_ROOT_PASSWORD: "1"
-          MARIADB_USER: "{{ distil_mariadb_username }}"
-          MARIADB_PASSWORD: "{{ distil_mariadb_password }}"
+          MARIADB_USER: "{{ distil_database_username }}"
+          MARIADB_PASSWORD: "{{ distil_database_password }}"
           MARIADB_DATABASE: "{{ distil_database_name }}"
