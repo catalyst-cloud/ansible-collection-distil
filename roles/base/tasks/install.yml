@@ -131,8 +131,8 @@
   register: distil_base_temp_policy_file
 
 - name: Create logrotate config file
-  ansible.builtin.copy:
-    src: distil-logs.logrotate
+  ansible.builtin.template:
+    src: distil-logs.logrotate.j2
     dest: /etc/logrotate.d/distil-logs
     owner: root
     group: root
