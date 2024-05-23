@@ -4,16 +4,21 @@
 distil_container_image_uri: "ghcr.io/catalyst-cloud/distil-docker"
 distil_container_image_tag: "queens"
 
-# UID/GID for the Distil service user and group. Requireds
-# distil_user_uid: 305
-# distil_user_gid: 305
-
 # Names for the Distil service user and group.
 distil_user_name: "distil"
 distil_user_group: "distil"
 
+# UID/GID for the Distil service user and group.
+distil_user_uid: 305
+distil_user_gid: 305
+
 # Group to assign to directories that need to be accessible by users who can use Docker.
 distil_docker_group: "root"
+
+# Base directories created for Distil service files.
+distil_base_dir: "/opt/distil"
+distil_config_dir: "{{ distil_base_dir }}/etc"
+distil_lib_dir: "{{ distil_base_dir }}/lib"
 
 # Distil SSL certificate file locations on the host.
 # The host paths should be overridden to the locations specific to the host in the inventory.

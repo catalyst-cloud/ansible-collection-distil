@@ -162,10 +162,11 @@ Deploys are idempotent, and services are only restarted on a host if the service
 
 Related playbooks:
 
-* `catalystcloud.distil.deploy_api` - Deploy only Distil API
-* `catalystcloud.distil.deploy_manage` - Deploy only Distil Manage
-* `catalystcloud.distil.deploy_exporter` - Deploy only Distil Exporter
-* `catalystcloud.distil.deploy_collector` - Deploy only Distil Collector
+* `catalystcloud.distil.deploy_distil` - Deploy Distil (to nodes with all services installed, not service-specific nodes)
+* `catalystcloud.distil.deploy_api` - Deploy Distil API (to dedicated nodes only)
+* `catalystcloud.distil.deploy_manage` - Deploy Distil Manage (to dedicated nodes only)
+* `catalystcloud.distil.deploy_exporter` - Deploy Distil Exporter (to dedicated nodes only)
+* `catalystcloud.distil.deploy_collector` - Deploy Distil Collector (to dedicated nodes only)
 
 ### `catalystcloud.distil.upgrade`
 

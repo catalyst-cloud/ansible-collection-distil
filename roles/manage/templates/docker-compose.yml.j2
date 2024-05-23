@@ -10,7 +10,7 @@ services:
     user: "{{ distil_user_uid }}"
     volumes:
       - type: bind
-        source: {{ distil_etc_dir }}
+        source: {{ distil_config_dir }}
         target: /etc/distil
         read_only: true
       - type: bind
