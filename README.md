@@ -184,6 +184,7 @@ Related playbooks:
 * `catalystcloud.distil.deploy_manage` - Deploy Distil Manage (to dedicated nodes only)
 * `catalystcloud.distil.deploy_exporter` - Deploy Distil Exporter (to dedicated nodes only)
 * `catalystcloud.distil.deploy_collector` - Deploy Distil Collector (to dedicated nodes only)
+* `catalystcloud.distil.deploy_openstack` - Deploy Distil OpenStack resources (e.g. Keystone)
 
 ### `catalystcloud.distil.upgrade`
 
@@ -239,6 +240,7 @@ Related playbooks (note that these will not remove the base service files, only 
 * `catalystcloud.distil.decommission_manage` - Decommission only Distil Manage
 * `catalystcloud.distil.decommission_exporter` - Decommission only Distil Exporter
 * `catalystcloud.distil.decommission_collector` - Decommission only Distil Collector
+* `catalystcloud.distil.decommission_openstack` - Decommission only Distil OpenStack resources (e.g. Keystone)
 
 ### Other playbooks
 
@@ -254,11 +256,12 @@ Differs from `deploy` and `upgrade` by simply installing/updating the service fi
 
 Related playbooks:
 
-* `catalystcloud.distil.install_base` - Install only Distil base services files
+* `catalystcloud.distil.install_base` - Install only Distil base service files
 * `catalystcloud.distil.install_api` - Install only Distil API
 * `catalystcloud.distil.install_manage` - Install only Distil Manage
 * `catalystcloud.distil.install_exporter` - Install only Distil Exporter
 * `catalystcloud.distil.install_collector` - Install only Distil Collector
+* `catalystcloud.distil.install_openstack` - Install only Distil OpenStack resources (e.g. Keystone)
 
 #### `catalystcloud.distil.uninstall`
 
@@ -268,11 +271,12 @@ Used as the service uninstallation step in the [`catalystcloud.distil.decommissi
 
 Related playbooks:
 
-* `catalystcloud.distil.install_base` - Uninstall only Distil base services files
-* `catalystcloud.distil.install_api` - Uninstall only Distil API
-* `catalystcloud.distil.install_manage` - Uninstall only Distil Manage
-* `catalystcloud.distil.install_exporter` - Uninstall only Distil Exporter
-* `catalystcloud.distil.install_collector` - Uninstall only Distil Collector
+* `catalystcloud.distil.uninstall_base` - Uninstall only Distil base services files
+* `catalystcloud.distil.uninstall_api` - Uninstall only Distil API
+* `catalystcloud.distil.uninstall_manage` - Uninstall only Distil Manage
+* `catalystcloud.distil.uninstall_exporter` - Uninstall only Distil Exporter
+* `catalystcloud.distil.uninstall_collector` - Uninstall only Distil Collector
+* `catalystcloud.distil.uninstall_openstack` - Uninstall only Distil OpenStack resources (e.g. Keystone)
 
 #### `catalystcloud.distil.predeploy`
 
@@ -289,6 +293,7 @@ Related playbooks:
 * `catalystcloud.distil.predeploy_manage` - Run pre-deploy tasks only for Distil Manage
 * `catalystcloud.distil.predeploy_exporter` - Run pre-deploy tasks only for Distil Exporter
 * `catalystcloud.distil.predeploy_collector` - Run pre-deploy tasks only for Distil Collector
+* `catalystcloud.distil.predeploy_openstack` - Run pre-deploy tasks only for Distil OpenStack resources (e.g. Keystone)
 
 #### `catalystcloud.distil.postdeploy`
 
@@ -305,6 +310,7 @@ Related playbooks:
 * `catalystcloud.distil.postdeploy_manage` - Run post-deploy tasks only for Distil Manage
 * `catalystcloud.distil.postdeploy_exporter` - Run post-deploy tasks only for Distil Exporter
 * `catalystcloud.distil.postdeploy_collector` - Run post-deploy tasks only for Distil Collector
+* `catalystcloud.distil.postdeploy_openstack` - Run post-deploy tasks only for Distil OpenStack resources (e.g. Keystone)
 
 ## Roles
 

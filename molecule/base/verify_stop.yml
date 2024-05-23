@@ -118,18 +118,13 @@
       community.docker.docker_container_info:
         name: distil-api
       register: result
-    - name: Check that the service container is running
+    - name: Check that the service container is not running
       ansible.builtin.assert:
         that:
-          - result.container.State.Running
-        success_msg: Container is running
-        fail_msg: Container is not running
+          - not result.container.State.Running
+        success_msg: Container is not running
+        fail_msg: Container is running
         quiet: true
-    - name: Check that Distil API is online
-      ansible.builtin.wait_for:
-        host: "{{ ansible_default_ipv4.address }}"
-        port: 9999
-        timeout: 30
 
 - name: Verify Distil Exporter
   hosts: distil
@@ -154,18 +149,13 @@
       community.docker.docker_container_info:
         name: distil-exporter
       register: result
-    - name: Check that the service container is running
+    - name: Check that the service container is not running
       ansible.builtin.assert:
         that:
-          - result.container.State.Running
-        success_msg: Container is running
-        fail_msg: Container is not running
+          - not result.container.State.Running
+        success_msg: Container is not running
+        fail_msg: Container is running
         quiet: true
-    - name: Check that Distil Exporter is online
-      ansible.builtin.wait_for:
-        host: "{{ ansible_default_ipv4.address }}"
-        port: 16798
-        timeout: 30
 
 - name: Verify Distil Collector
   hosts: distil
@@ -198,20 +188,13 @@
       register: result
       loop:
         - ""
-    - name: Check that the service container is running
+    - name: Check that the service container is not running
       ansible.builtin.assert:
         that:
-          - item.container.State.Running
-        success_msg: Container is running
-        fail_msg: Container is not running
+          - not item.container.State.Running
+        success_msg: Container is not running
+        fail_msg: Container is running
         quiet: true
       loop: "{{ result.results }}"
       loop_control:
         label: "{{ item.item }}"
-    - name: Check that the Distil Collector Exporters are online
-      ansible.builtin.wait_for:
-        host: "{{ ansible_default_ipv4.address }}"
-        port: "{{ item }}"
-        timeout: 30
-      loop:
-        - 16799
