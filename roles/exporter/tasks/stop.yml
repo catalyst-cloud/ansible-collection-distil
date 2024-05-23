@@ -1,5 +1,9 @@
 ---
 
+- name: Import common variables
+  ansible.builtin.import_role:
+    name: common
+
 - name: Check if the service compose file exists
   ansible.builtin.stat:
     path: "{{ distil_exporter_base_dir }}/docker-compose.yml"

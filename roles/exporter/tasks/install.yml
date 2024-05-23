@@ -1,5 +1,9 @@
 ---
 
+- name: Import common variables
+  ansible.builtin.import_role:
+    name: common
+
 - name: Create service directory
   ansible.builtin.file:
     path: "{{ distil_exporter_base_dir }}"
