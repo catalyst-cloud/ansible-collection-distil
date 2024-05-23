@@ -11,6 +11,7 @@
     state: "{{ distil_collector_temp_state | default('present') }}"
     pull: "{{ distil_collector_temp_pull | default('missing') }}"
     recreate: "{{ distil_collector_temp_recreate | default('auto') }}"
+  when: not ansible_check_mode
 
 - name: Wait until access port is online (if Distil Collector Exporter is enabled)
   ansible.builtin.wait_for:
