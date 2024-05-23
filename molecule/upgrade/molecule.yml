@@ -45,6 +45,7 @@ scenario:
     - dependency
     - cleanup
     - syntax
+    - create
     - prepare
     - check
     - side_effect
@@ -62,3 +63,4 @@ scenario:
     # Run uninstall again to ensure it works even if already uninstalled.
     - side_effect ../base/uninstall.yml
     - cleanup
+    - destroy

@@ -1,7 +1,7 @@
 ---
 
-- name: Start MariaDB on localhost
-  hosts: localhost
+- name: Start MariaDB
+  hosts: distil[0]
   become: true
   tasks:
     - name: Start MariaDB
