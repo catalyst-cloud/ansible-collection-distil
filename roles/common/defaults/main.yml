@@ -12,14 +12,17 @@ distil_user_group: "distil"
 distil_user_uid: 305
 distil_user_gid: 305
 
-# Group to assign to directories that need to be accessible by users who can use Docker.
-distil_docker_group: "root"
-
 # Base directories created for Distil service files.
 distil_base_dir: "/opt/distil"
 distil_config_dir: "{{ distil_base_dir }}/etc"
 distil_lib_dir: "{{ distil_base_dir }}/lib"
 distil_log_dir: "/var/log/distil"
+
+# Group to assign to directories that need to be accessible by users who can use Docker.
+distil_docker_group: "root"
+
+# Group to assign to the logging directory.
+distil_log_group: "{{ distil_user_group }}"
 
 # Distil SSL certificate file locations on the host.
 # The host paths should be overridden to the locations specific to the host in the inventory.

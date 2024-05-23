@@ -47,6 +47,8 @@ make sure the target hosts have at least one of the above groups assigned to it.
 * `distil_config_dir` - The host directory to install Distil configuration files to. Default is `{{ distil_base_dir }}/etc`.
 * `distil_lib_dir` - The host directory to use for Distil runtime files. Default is `{{ distil_base_dir }}/lib`.
 * `distil_log_dir` - The target directory for Distil service log files on the host. Default is `/var/log/distil`.
+* `distil_docker_group` - The group to assign to directories that need to be accessible by users who can use Docker. Default is `root`.
+* `distil_log_group` - The group to assign to the logging directory. Default is to assign the Distil service group.
 * `distil_ssl_cert` - Service SSL certificate filepath on the host.
 * `distil_ssl_key` - Service SSL private key filepath on the host.
 * `distil_ssl_cacert` - Service CA certificate bundle filepath on the host.

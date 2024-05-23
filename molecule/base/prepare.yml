@@ -16,3 +16,8 @@
           MARIADB_USER: "{{ distil_database_username }}"
           MARIADB_PASSWORD: "{{ distil_database_password }}"
           MARIADB_DATABASE: "{{ distil_database_name }}"
+    - name: Wait until MariaDB is online
+      ansible.builtin.wait_for:
+        host: "127.0.0.1"
+        port: 3306
+        timeout: 300
