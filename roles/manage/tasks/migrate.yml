@@ -6,7 +6,7 @@
 
 - name: Migrate Distil database
   ansible.builtin.command:
-    cmd: docker compose --file docker-ompose.yml run --rm distil-db-manage
+    cmd: docker compose --file docker-compose.yml run --rm distil-db-manage
     chdir: "{{ distil_manage_base_dir }}"
   register: distil_temp_db_manage
   changed_when: "'Running upgrade' in distil_temp_db_manage.stderr"
