@@ -202,7 +202,7 @@ The following process is undertaken when upgrading:
 1. Upgrade Distil API, Distil Exporter and Distil Collector on all nodes.
 1. Migrate the Distil database.
     * The database migration is only performed once, on the first node to be upgraded.
-1. Restart Distil API, Distil Exporter and Distil Collector on all nodes
+1. Restart Distil API, Distil Exporter and Distil Collector on all nodes.
 
 **Take care when using this playbook, as Distil is completely shutdown while upgrading.**
 **This results in a short Distil API outage (affecting the billing dashboard customers use).**

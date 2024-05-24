@@ -7,7 +7,7 @@ services:
 {% endif %}
     image: {{ distil_container_image_uri }}:{{ distil_container_image_tag }}
     network_mode: host
-    user: "{{ distil_user_uid }}"
+    user: "{{ distil_user_uid }}:{{ distil_user_gid }}"
     volumes:
       - type: bind
         source: {{ distil_config_dir }}
