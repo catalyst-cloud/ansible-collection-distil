@@ -1,5 +1,7 @@
 ---
 
+name: "{{ distil_collector_temp_compose_project_name }}"
+
 services:
   {{ distil_collector_temp_container_name | default(('distil-exporter-' + distil_collector_temp_name) if distil_collector_temp_name else 'distil_collector', True) }}:
 {% if distil_collector_temp_container_name %}

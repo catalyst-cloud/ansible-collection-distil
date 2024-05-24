@@ -1,5 +1,7 @@
 ---
 
+name: "{{ distil_api_compose_project_name }}"
+
 services:
   {{ distil_api_container_name | default('distil-api', True) }}:
 {% if distil_api_container_name %}

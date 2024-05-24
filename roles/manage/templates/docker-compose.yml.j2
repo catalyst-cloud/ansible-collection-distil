@@ -1,5 +1,7 @@
 ---
 
+name: "{{ distil_manage_compose_project_name }}"
+
 services:
   {{ distil_db_manage_container_name | default('distil-db-manage', True) }}:
 {% if distil_db_manage_container_name %}

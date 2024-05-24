@@ -2,7 +2,6 @@
 
 - name: Start service containers
   community.docker.docker_compose_v2:
-    project_name: "{{ distil_exporter_compose_project_name }}"
     project_src: "{{ distil_exporter_base_dir }}"
     state: "{{ distil_exporter_temp_state | default('present') }}"
     pull: "{{ distil_exporter_temp_pull | default('missing') }}"
