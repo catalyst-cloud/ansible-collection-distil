@@ -28,7 +28,7 @@ provisioner:
   inventory:
     group_vars:
       distil:
-        distil_ssl_cert: "/tmp/molecule-distil.pem"
+        distil_ssl_cert: "/tmp/molecule-distil.crt"
         distil_ssl_key: "/tmp/molecule-distil.key"
         distil_database_hosts:
           - "localhost:3306"

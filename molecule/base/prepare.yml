@@ -7,11 +7,17 @@
     - name: Create private key (RSA, 4096 bits)
       community.crypto.openssl_privatekey:
         path: "{{ distil_ssl_key }}"
+        owner: root
+        group: distil
+        mode: "0640"
     - name: Create self-signed certificate
       community.crypto.x509_certificate:
         path: "{{ distil_ssl_cert }}"
         privatekey_path: "{{ distil_ssl_key }}"
         provider: selfsigned
+        owner: root
+        group: distil
+        mode: "0640"
 
 - name: Start MariaDB
   hosts: distil[0]
