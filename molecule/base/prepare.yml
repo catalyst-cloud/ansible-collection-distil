@@ -1,5 +1,18 @@
 ---
 
+- name: Create self-signed certificates
+  hosts: distil
+  become: true
+  tasks:
+    - name: Create private key (RSA, 4096 bits)
+      community.crypto.openssl_privatekey:
+        path: "{{ distil_ssl_key }}"
+    - name: Create self-signed certificate
+      community.crypto.x509_certificate:
+        path: "{{ distil_ssl_cert }}"
+        privatekey_path: "{{ distil_ssl_key }}"
+        provider: selfsigned
+
 - name: Start MariaDB
   hosts: distil[0]
   become: true
