@@ -25,4 +25,5 @@ distil_collector_max_collection_start_age: 864  # 864 hours (36 days)
 # Distil Collector Exporter options.
 distil_collector_exporter_enable: true
 distil_collector_exporter_address: "0.0.0.0"
+distil_collector_exporter_port: 16799  # Applies to the default collector only.
 distil_collector_exporter_start_timeout: 300  # seconds

@@ -102,6 +102,7 @@ make sure the target hosts have at least one of the above groups assigned to it.
         * The Keystone project `created_on` field, if it is available. This field is set by Adjutant when it creates new projects on sign-ups. This is usually the newest, and thus the most likely to be used.
         * The oldest found `last_collected` value for the existing projects being serviced by this collector instance. If Keystone is used to create the project directly (and not via Adjutant), this is the one that will likely be used.
         * The maximum `last_collected` value for the current time, which is calculated from `distil_collector_max_collection_start_age`. The default value is 36 days, to allow for at least one month's worth of billing to be caught up if required. This serves as the fallback for when no better alternative is found, as it means the collector will spend some time catching up the project to the present.
+* `distil_collector_exporter_port` - The default port for Distil Collector Exporter. When using multiple collectors on the same host, define unique ports for each individual collector. Default is `16799`.
 
 #### Distil database configuration
 
