@@ -39,7 +39,7 @@ services:
       - UWSGI_WORKERS=2
       - UWSGI_THREADS=1
       - UWSGI_LOGTO={{ distil_log_dir }}/distil-exporter-wsgi.log
-      - UWSGI_LOGFILE_CHMOD={{ distil_log_file_mode }}
+      - UWSGI_LOGFILE_CHMOD=644
       - UWSGI_DIE_ON_TERM=true
       - UWSGI_SHOW_CONFIG=true
       - UWSGI_MASTER=true

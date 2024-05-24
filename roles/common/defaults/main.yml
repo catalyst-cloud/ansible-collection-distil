@@ -24,7 +24,6 @@ distil_docker_group: "root"
 distil_log_dir: "/var/log/distil"
 distil_log_group: "{{ distil_user_group }}"
 distil_log_dir_mode: "0750"
-distil_log_file_mode: "0640"
 
 # Distil SSL certificate file locations on the host.
 # The host paths should be overridden to the locations specific to the host in the inventory.

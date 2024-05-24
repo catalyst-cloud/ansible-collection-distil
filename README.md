@@ -50,7 +50,6 @@ make sure the target hosts have at least one of the above groups assigned to it.
 * `distil_log_dir` - The target directory for Distil service log files on the host. Default is `/var/log/distil`.
 * `distil_log_group` - The group to assign to the logging directory. Default is to assign the Distil service group.
 * `distil_log_dir_mode` - The permissions for the logging directory. Default is `"0750"`.
-* `distil_log_file_mode` - The permissions for log files within the logging directory. Default is `"0640"`.
 * `distil_ssl_cert` - Service SSL certificate filepath on the host.
 * `distil_ssl_key` - Service SSL private key filepath on the host.
 * `distil_ssl_cacert` - Service CA certificate bundle filepath on the host.

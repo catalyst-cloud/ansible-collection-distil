@@ -61,7 +61,7 @@
 
 - name: Recursively set log file permissions
   ansible.builtin.command:
-    cmd: 'find "{{ distil_log_dir }}" -type f -exec chmod --changes {{ distil_log_file_mode }} {} \;'
+    cmd: 'find "{{ distil_log_dir }}" -type f -exec chmod --changes 644 {} \;'
   register: distil_base_temp_chmod_files
   changed_when: "'changed' in distil_base_temp_chmod_files.stdout"
 
