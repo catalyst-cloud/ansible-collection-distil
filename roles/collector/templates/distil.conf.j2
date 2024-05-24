@@ -28,10 +28,10 @@ ignore_tenants = {{ distil_collector.ignore_projects | join(", ") }}
 {% endif %}
 trust_sources = {{ distil_collector_trust_sources | join(", ") }}
 max_collection_start_age = {{ distil_collector_max_collection_start_age }}
-{% if distil_collector_exporter_enable %}
+{% if distil_collector.exporter_enable | default(distil_collector_exporter_enable) %}
 enable_exporter = true
 exporter_host = {{ distil_collector_exporter_address }}
-exporter_port = {{ distil_collector.exporter_port | default(16799) }}
+exporter_port = {{ distil_collector.exporter_port | default(distil_collector_exporter_port) }}
 {% endif %}
 
 [database]

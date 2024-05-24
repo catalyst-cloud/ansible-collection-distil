@@ -72,6 +72,8 @@ distil_api_port: 9999
 #  * ignore_projects - List of OpenStack projects to ignore for collection (blacklist).
 #                      Can be combined with include_domains/ignore_domains.
 #                      include_projects takes precedence.
+#  * exporter_enable - Enable Distil Collector Exporter for this collector.
+#                      Default is to use the global value (distil_collector_exporter_enable).
 #  * exporter_port - Distil Collector Exporter port for this collector, if enabled.
 #                    Must be unique for each collector on a host.
 #                    Default is 16799.
