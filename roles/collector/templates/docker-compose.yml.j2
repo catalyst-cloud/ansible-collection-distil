@@ -17,15 +17,15 @@ services:
         target: /etc/distil/distil.conf
         read_only: true
       - type: bind
-        source: /docker/volumes/distil/etc/meter_mappings.yml
+        source: {{ distil_config_dir }}/meter_mappings.yml
         target: /etc/distil/meter_mappings.yml
         read_only: true
       - type: bind
-        source: /docker/volumes/distil/etc/transformer.yml
+        source: {{ distil_config_dir }}/transformer.yml
         target: /etc/distil/transformer.yml
         read_only: true
       - type: bind
-        source: /docker/volumes/distil/lib
+        source: {{ distil_lib_dir }}
         target: /var/lib/distil
         read_only: false
       - type: bind
