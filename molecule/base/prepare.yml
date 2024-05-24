@@ -8,7 +8,7 @@
       community.crypto.openssl_privatekey:
         path: "{{ distil_ssl_key }}"
         owner: root
-        group: "305"
+        group: "{{ distil_user_gid | string }}"
         mode: "0640"
     - name: Create self-signed certificate
       community.crypto.x509_certificate:
@@ -16,7 +16,7 @@
         privatekey_path: "{{ distil_ssl_key }}"
         provider: selfsigned
         owner: root
-        group: "305"
+        group: "{{ distil_user_gid | string }}"
         mode: "0640"
 
 - name: Start MariaDB
