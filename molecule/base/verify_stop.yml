@@ -132,7 +132,7 @@
   tasks:
     - name: Check that the WSGI script file exists
       ansible.builtin.stat:
-        path: /opt/distil/exporter/distil-exporter
+        path: /opt/distil/exporter/distil-exporter.wsgi
       register: wsgi_file
       failed_when: not (wsgi_file.stat.exists | default(False))
     - name: Check that the service README file exists
