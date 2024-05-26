@@ -362,9 +362,53 @@ The following roles are also available in this collection, but not intended to b
 
 ## Testing
 
-This repository contains [pre-commit hooks](https://pre-commit.com) for linting purposes,
-and a [Molecule](https://ansible.readthedocs.io/projects/molecule) test suite for
-running the collection and verifying the results are correct.
+This repository contains pre-commit hooks for linting purposes,
+and a Molecule test suite for running the collection and verifying the results are correct.
 
-Both of them are run automatically using GitHub Actions for pull requests
-and the `main` branch.
+Both of them are run automatically using GitHub Actions for pull requests and the `main` branch.
+
+Due to using the latest versions of the related Ansible tools
+(and their Python version requirements), Python 3.10 or later is required to run them.
+
+### Pre-commit hooks
+
+To run these locally on your system, make sure [`pre-commit`](https://pre-commit.com) is installed,
+and the command is executable from your `PATH`.
+
+Run the pre-commit hooks automatically on each commit:
+
+```bash
+pre-commit install
+```
+
+Manually run the pre-commit hooks:
+
+```bash
+pre-commit run --all-files
+```
+
+### Molecule tests
+
+The [Molecule](https://ansible.readthedocs.io/projects/molecule) tests run
+using the `delegated` driver targeted at `localhost`.
+This is designed to be run on GitHub Actions, but can be also run
+on a local machine (e.g. an OpenStack instance) for testing purposes.
+
+First, create a virtualenv, source it and install the packages defined in `requirements.txt`:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+```
+
+Once that is done, you should be able to use the `molecule` command to run tests.
+
+There are two test scenarios:
+
+* `install` - Test the playbooks for the standard deploy of Distil to a region where it is already running.
+* `upgrade` - Test the playbooks for version upgrades (and also deploying Distil to a new region).
+
+```bash
+molecule test --scenario-name <scenario-name>
+```
