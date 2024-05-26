@@ -68,9 +68,9 @@ scenario:
     - verify ../base/verify_disable.yml
     - side_effect ../base/enable.yml
     - verify
-    - side_effect ../base/uninstall.yml
-    - verify ../base/verify_uninstall.yml
-    # Run uninstall again to ensure it works even if already uninstalled.
-    - side_effect ../base/uninstall.yml
+    - side_effect ../base/decommission.yml
+    - verify ../base/verify_decommission.yml
+    # Run decommission again to ensure it works even if already uninstalled.
+    - side_effect ../base/decommission.yml
     - cleanup
     - destroy
