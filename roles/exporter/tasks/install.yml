@@ -37,6 +37,13 @@
     group: "{{ distil_user_name }}"
     mode: "0640"
 
+- name: Pull service containers
+  community.docker.docker_compose_v2_pull:
+    project_src: "{{ distil_exporter_base_dir }}"
+    files:
+      - docker-compose.yml
+  when: not ansible_check_mode
+
 - name: Mark service as changed (if mounted files are changed)
   ansible.builtin.set_fact:
     distil_exporter_temp_changed: "{{ distil_exporter_temp_wsgi_file.changed }}"

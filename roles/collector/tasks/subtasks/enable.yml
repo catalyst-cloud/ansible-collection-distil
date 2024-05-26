@@ -7,8 +7,9 @@
 - name: Start service containers
   community.docker.docker_compose_v2:
     project_src: "{{ distil_collector_temp_base_dir }}"
+    files:
+      - docker-compose.yml
     state: present
-    pull: "{{ distil_collector_temp_pull | default('missing') }}"
     recreate: "{{ distil_collector_temp_recreate | default('auto') }}"
   when: not ansible_check_mode
 

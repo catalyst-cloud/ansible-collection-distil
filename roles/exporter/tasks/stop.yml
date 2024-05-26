@@ -11,7 +11,8 @@
 
 - name: Stop service containers without destroying them (if the compose file exists)
   community.docker.docker_compose_v2:
-    project_name: "{{ distil_exporter_compose_project_name }}"
     project_src: "{{ distil_exporter_base_dir }}"
+    files:
+      - docker-compose.yml
     state: stopped
   when: distil_exporter_temp_dockercompose_yml.stat.exists | default(False)

@@ -37,6 +37,13 @@
     group: "{{ distil_user_name }}"
     mode: "0640"
 
+- name: "Pull service containers{{ distil_collector_temp_description }}"
+  community.docker.docker_compose_v2_pull:
+    project_src: "{{ distil_collector_temp_base_dir }}"
+    files:
+      - docker-compose.yml
+  when: not ansible_check_mode
+
 - name: "Mark service as changed (if mounted files are changed){{ distil_collector_temp_description }}"
   ansible.builtin.set_fact:
     distil_collector_temp_changed: "{{ distil_collector_temp_config_file.changed }}"

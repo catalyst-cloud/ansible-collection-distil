@@ -11,8 +11,9 @@
 
 - name: Destroy service containers and remove volumes/images (if the compose file exists)
   community.docker.docker_compose_v2:
-    project_name: "{{ distil_api_compose_project_name }}"
     project_src: "{{ distil_api_base_dir }}"
+    files:
+      - docker-compose.yml
     state: absent
     remove_images: all
     remove_volumes: true

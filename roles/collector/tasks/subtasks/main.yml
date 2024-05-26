@@ -8,7 +8,6 @@
   ansible.builtin.include_tasks:
     file: enable.yml
   vars:
-    distil_collector_temp_pull: always
     distil_collector_temp_recreate: >-
       {{
         'always'
