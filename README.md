@@ -33,10 +33,10 @@ To use this collection, inventory variables need to be defined for the managed h
 When using the built-in Ansible playbooks (optional), the following host groups are used:
 
 * `distil` - Host group for installing **all** available Distil services
-* `distil_api` - Host froup for installing Distil API only
-* `distil_manage` - Host froup for installing Distil Manage only
-* `distil_exporter` - Host froup for installing Distil Exporter only
-* `distil_collector` - Host froup for installing Distil Collector only
+* `distil_api` - Host group for installing Distil API only
+* `distil_manage` - Host group for installing Distil Manage only
+* `distil_exporter` - Host group for installing Distil Exporter only
+* `distil_collector` - Host group for installing Distil Collector only
 
 If you are making use of the Ansible playbooks bundled within this playbook to manage Distil,
 make sure the target hosts have at least one of the above groups assigned to it.
@@ -48,7 +48,7 @@ make sure the target hosts have at least one of the above groups assigned to it.
 * `distil_lib_dir` - The host directory to use for Distil runtime files. Default is `{{ distil_base_dir }}/lib`.
 * `distil_docker_group` - The group to assign to directories that need to be accessible by users who can use Docker. Default is `root`.
 * `distil_log_dir` - The target directory for Distil service log files on the host. Default is `/var/log/distil`.
-* `distil_log_group` - The group to assign to the logging directory. Default is to assign the Distil service group.
+* `distil_log_dir_group` - The group to assign to the logging directory. Default is to assign the Distil service group.
 * `distil_log_dir_mode` - The permissions for the logging directory. Default is `"0750"`.
 * `distil_ssl_cert` - Service SSL certificate filepath on the host.
 * `distil_ssl_key` - Service SSL private key filepath on the host.

@@ -50,7 +50,7 @@
     path: "{{ distil_log_dir }}"
     state: directory
     owner: "{{ distil_user_name }}"
-    group: "{{ distil_log_group }}"
+    group: "{{ distil_log_dir_group }}"
     mode: "{{ distil_log_dir_mode }}"
 
 - name: Recursively set log subdirectory permissions

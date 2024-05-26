@@ -22,7 +22,7 @@ distil_docker_group: "root"
 
 # Logging directory options.
 distil_log_dir: "/var/log/distil"
-distil_log_group: "{{ distil_user_group }}"
+distil_log_dir_group: "{{ distil_user_group }}"
 distil_log_dir_mode: "0750"
 
 # Distil SSL certificate file locations on the host.
