@@ -218,16 +218,22 @@ that do not require a database migration, use the
 Start all Distil services on all nodes, and ensure they are configured to start automatically when the node restarts.
 
 * `catalystcloud.distil.enable_api` - Enable only Distil API
-* `catalystcloud.distil.enable_manage` - Enable only Distil Manage
 * `catalystcloud.distil.enable_exporter` - Enable only Distil Exporter
 * `catalystcloud.distil.enable_collector` - Enable only Distil Collector
+
+### `catalystcloud.distil.stop`
+
+Temporarily stop all Distil services on all nodes, without disabling startup on next boot.
+
+* `catalystcloud.distil.stop_api` - Stop only Distil API
+* `catalystcloud.distil.stop_exporter` - Stop only Distil Exporter
+* `catalystcloud.distil.stop_collector` - Stop only Distil Collector
 
 ### `catalystcloud.distil.disable`
 
 Stop all Distil services on all nodes, and ensure they do not restart if the node restarts.
 
 * `catalystcloud.distil.disable_api` - Disable only Distil API
-* `catalystcloud.distil.disable_manage` - Disable only Distil Manage
 * `catalystcloud.distil.disable_exporter` - Disable only Distil Exporter
 * `catalystcloud.distil.disable_collector` - Disable only Distil Collector
 
