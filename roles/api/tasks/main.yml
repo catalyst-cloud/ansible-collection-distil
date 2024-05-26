@@ -9,9 +9,9 @@
     file: subtasks/enable.yml
   vars:
     distil_api_temp_pull: always
-    distil_api_temp_state: >-
+    distil_collector_temp_recreate: >-
       {{
-        'restarted'
+        'always'
         if (distil_base_temp_changed | default(False)) or distil_api_temp_changed
-        else 'present'
+        else 'auto'
       }}

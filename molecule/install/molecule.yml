@@ -25,6 +25,12 @@ provisioner:
     verify: ../base/verify.yml
     side_effect: ../base/converge.yml
     cleanup: ../base/cleanup.yml
+  # config_options:
+  #   defaults:
+  #     timeout: 30   # Uncomment to crease SSH and privilege escalation timeout.
+  #     verbosity: 3  # Uncomment to increase Ansible verbosity. Default is 0.
+  #   diff:
+  #     always: true  # Uncomment to show task diffs.
   inventory:
     group_vars:
       distil:

@@ -3,7 +3,7 @@
 - name: Start service containers
   community.docker.docker_compose_v2:
     project_src: "{{ distil_exporter_base_dir }}"
-    state: "{{ distil_exporter_temp_state | default('present') }}"
+    state: present
     pull: "{{ distil_exporter_temp_pull | default('missing') }}"
     recreate: "{{ distil_exporter_temp_recreate | default('auto') }}"
   when: not ansible_check_mode

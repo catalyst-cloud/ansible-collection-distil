@@ -61,7 +61,7 @@
       failed_when: not (products_file.stat.exists | default(False))
     - name: Check that the Keystone policy file exists
       ansible.builtin.stat:
-        path: /opt/distil/etc/policy.json
+        path: /opt/distil/etc/policy.yaml
       register: policy_file
       failed_when: not (policy_file.stat.exists | default(False))
     - name: Check that the runtime volume directory (service home directory) exists
