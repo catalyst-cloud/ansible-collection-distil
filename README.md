@@ -52,7 +52,7 @@ Distil API uses a configurable ERP driver for a number of functions:
 * Fetching a list of products with prices, for generating the current month's quotations
 
 The Ansible collection configures Distil to use the `jsonfile` ERP driver by default.
-This reads a list of products and prices from a `products.json` that is installed
+This reads a list of products and prices from a `products.json` file that is installed
 with the configuration, and allows Distil to work in test environments without a functioning
 Odoo installation.
 
