@@ -64,12 +64,12 @@ distil_api_port: 9999
 # Available options:
 #  * name - Unique name for the collector. Required.
 #           Set to `null` to not assign a name (default collector).
-#  * include_domains - List of OpenStack domains to collect using this collector (whitelist).
-#  * ignore_domains - List of OpenStack domains to ignore for collection (blacklist).
+#  * include_domains - List of OpenStack domains to collect using this collector (allowlist).
+#  * ignore_domains - List of OpenStack domains to ignore for collection (blocklist).
 #                     include_domains takes precedence.
-#  * include_projects - List of OpenStack projects to collect using this collector (whitelist).
+#  * include_projects - List of OpenStack projects to collect using this collector (allowlist).
 #                       Can be combined with include_domains/ignore_domains.
-#  * ignore_projects - List of OpenStack projects to ignore for collection (blacklist).
+#  * ignore_projects - List of OpenStack projects to ignore for collection (blocklist).
 #                      Can be combined with include_domains/ignore_domains.
 #                      include_projects takes precedence.
 #  * exporter_enable - Enable Distil Collector Exporter for this collector.
