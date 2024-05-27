@@ -76,7 +76,7 @@ distil_api_port: 9999
 #                      Default is to use the global value (distil_collector_exporter_enable).
 #  * exporter_port - Distil Collector Exporter port for this collector, if enabled.
 #                    Must be unique for each collector on a host.
-#                    Default is 16799.
+#                    Default is to use the global value (distil_collector_exporter_port).
 distil_collectors:
   # Default: Create a single collector (the default collector). Collect all domains and projects.
   - name: null
