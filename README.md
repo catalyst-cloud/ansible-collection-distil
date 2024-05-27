@@ -35,7 +35,7 @@ Docker Compose V2 is used to manage the lifecycle of the containers.
 
 A set of service containers used for administration of Distil.
 
-Current the only available container is `distil-db-manage`, which is used primarily
+Currently the only available container is `distil-db-manage`, which is used primarily
 to initialise the Distil database on new installations, and database migrations
 when performing service upgrades.
 
