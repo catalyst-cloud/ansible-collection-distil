@@ -24,6 +24,148 @@ collections:
 
 The collection will then be installed when `ansible-galaxy install -r requirements.yml` is run.
 
+## Services
+
+The following services are installed and managed by this collection.
+
+All services are run as Docker containers in `host` network mode.
+Docker Compose V2 is used to manage the lifecycle of the containers.
+
+### Distil Manage
+
+A set of service containers used for administration of Distil.
+
+Current the only available container is `distil-db-manage`, which is used primarily
+to initialise the Distil database on new installations, and database migrations
+when performing service upgrades.
+
+### Distil API
+
+Distil API runs the OpenStack rating service API, which can be queried
+using the `openstack rating` commands provided by the
+[`python-distilclient`](https://pypi.org/project/python-distilclient) package,
+or via the dashboard using the [Distil UI](https://opendev.org/x/distil-ui) plugin for Horizon.
+
+By default, a service container named `distil-api` will be created on the host.
+
+Distil API is run as a WSGI app within [uWSGI](https://uwsgi-docs.readthedocs.io/en/latest),
+serving HTTPS to port 9999 by default, with 3 workers and 3 concurrent threads per worker.
+
+### Distil Exporter
+
+Distil Exporter exposes a Prometheus exporter for tracking the collection status of projects.
+This service is optional, but enabled by default.
+
+By default, a service container named `distil-exporter` will be created on the host.
+
+Distil Exporter is run as a WSGI app within [uWSGI](https://uwsgi-docs.readthedocs.io/en/latest),
+serving HTTP to port 16798 by default, with 2 workers and 1 concurrent thread per worker.
+
+To scrape this exporter, add a scrape config to your Prometheus instance like so:
+
+```yaml
+---
+
+scrape_configs:
+  - job_name: distil
+    metrics_path: /metrics
+    scheme: http
+    scrape_interval: 15s
+    scrape_timeout: 10s
+    static_configs:
+      - targets:
+          - 192.0.2.1:16798
+```
+
+The following metrics are exported:
+
+* `distil_build_info{...}` (`gauge`) - Distil library versions and exporter uptime status
+* `distil_last_collected{project_id(str)}` (`gauge`) - Unix timestamp for age of collection for each project
+
+### Distil Collector
+
+Distil Collector is the backend service that does the majority of the data processing.
+
+A collection run is performed on startup.
+Jobs are scheduled to perform subsequent collection runs at the same time the next hour, and so on.
+
+First, Keystone is queried for a list of active projects.
+After filtering domains and projects as defined in the configuration,
+the following steps are performed for each defined rated service for each project:
+
+1. Query the telemetry service (currently only Ceilometer API is supported) to discover usage within the next window to be collected for the project.
+1. Transform (rate) the usage according to the meter mapping/transformer configuration.
+1. Create the corresponding usage entries for Distil services within the rated window.
+
+If a project is already up to date on its collection, it is skipped.
+
+By default, a single service container named `distil-collector`,
+that collects all projects and domains, will be created on the host.
+
+Running multiple collectors at once from the same host is also supported,
+with different domain/project filtering options defined for different collector types.
+This is useful for separating collection concerns (e.g. customer projects and internal projects),
+so that if one of the collectors fail or has performance issues, it does not affect others.
+
+Distil Collector also exposes an optional Prometheus exporter called Distil Collector Exporter,
+run as a separate thread within the Distil Collector process, with metrics tracked in-memory.
+This allows for collection of reasonably accurate collection run metrics efficiently,
+without performing expensive database queries. This collector serves HTTP to port 16799 by default.
+
+To scrape this exporter, add a scrape config to your Prometheus instance like so:
+
+```yaml
+---
+
+scrape_configs:
+  - job_name: distil_collector
+    metrics_path: /metrics
+    scheme: http
+    scrape_interval: 15s
+    scrape_timeout: 10s
+    static_configs:
+      - targets:
+          - 192.0.2.1:16799
+          # Add additional configs for each additional configured collector.
+```
+
+The following metrics are exported:
+
+* `distil_collector_build_info{...}` (`gauge`) - Distil Collector library versions and uptime status
+* `distil_collector_last_run_start` (`gauge`) - Unix timestamp for the latest collection run's start time
+* `distil_collector_last_run_end` (`gauge`) - Unix timestamp for the latest collection run's end time
+* `distil_collector_last_run_duration_seconds` (`gauge`) - Latest collection run's duration, in seconds
+* `distil_collector_usage_total{project_id(str), service(str), unit(str)}` (`counter`) - Total usage under each service for a given project
+
+## Files
+
+The following service files are installed by the collection:
+
+* `/opt/distil` - Distil base directory (configurable)
+  * `etc/` - Common configuration directory (mounted as `/etc/distil`)
+    * `distil.conf` - Distil service configuration (except collectors)
+    * `meter_mappings.yaml` - Ceilometer meter -> Distil serving mapping configuration
+    * `transformer.yaml` - Distil transformer configuration (for transformers used in meter mappings)
+    * `policy.yaml` - Keystone policy file for Distil API
+  * `lib/` - Runtime file directory (mounted as `/var/lib/distil`, not normally used)
+  * `manage/` - Distil Manage
+    * `docker-compose.yml` - Service compose file
+    * `README.md` - Useful information for interacting with the service
+  * `api/` - Distil API
+    * `docker-compose.yml` - Service compose file
+    * `distil-api.wsgi` - WSGI service file
+    * `README.md` - Useful information for interacting with the service
+  * `exporter/` - Distil Exporter
+    * `docker-compose.yml` - Service compose file
+    * `distil-exporter.wsgi` - WSGI service file
+    * `README.md` - Useful information for interacting with the service
+  * `collector[-<name>]/` - Distil Collector (can be more than one run at once on a host)
+    * `docker-compose.yml` - Service compose file
+    * `distil.conf` - Collector-specific service configuration (mounted as `/etc/distil/distil.conf`)
+    * `README.md` - Useful information for interacting with the service
+* `/var/log/distil` - Logging directory for Distil on the host (configurable)
+* `/etc/logrotate.d/distil-logs` - Logrotate configuration for the Distil logging directory
+
 ## Usage
 
 ### Inventory
