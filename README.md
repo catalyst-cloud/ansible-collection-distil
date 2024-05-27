@@ -160,7 +160,7 @@ The following service files are installed by the collection:
     * `meter_mappings.yaml` - Ceilometer meter -> Distil serving mapping configuration
     * `transformer.yaml` - Distil transformer configuration (for transformers used in meter mappings)
     * `policy.yaml` - Keystone policy file for Distil API
-    * `products.json` - JSON products for the Distil `jsonfile` ERP driver
+    * `products.json` - JSON products file for the Distil `jsonfile` ERP driver
   * `lib/` - Runtime file directory (mounted as `/var/lib/distil`, not normally used)
   * `manage/` - Distil Manage
     * `docker-compose.yml` - Service compose file
