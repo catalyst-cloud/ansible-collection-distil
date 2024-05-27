@@ -281,6 +281,7 @@ make sure the target hosts have at least one of the above groups assigned to it.
 Ensure these options are configured when using the `jsonfile` ERP driver.
 
 * `distil_jsonfile_tax_rate` - The tax rate to use when calculating, as a decimal percentage. Default is `0` (no tax).
+* `distil_jsonfile_regions` - A list of regions available in this OpenStack environment to generate product metadata for. Default is to configure only the region set in `distil_openstack_region`.
 
 #### Distil Odoo configuration
 
