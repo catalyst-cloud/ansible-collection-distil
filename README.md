@@ -168,7 +168,7 @@ The following service files are installed by the collection:
   * `distil-api.log` - Distil API daemon log
   * `distil-api-wsgi.log` - Distil API uWSGI service log
   * `distil-exporter.log` - Distil Exporter daemon log
-  * `distil-exporter-wsgi.log` - Distil API uWSGI service log
+  * `distil-exporter-wsgi.log` - Distil Exporter uWSGI service log
   * `distil-collector[-<name>].log` - Distil Collector daemon logs (separate for each collector type)
 * `/etc/logrotate.d/distil-logs` - Logrotate configuration for the Distil logging directory
 
