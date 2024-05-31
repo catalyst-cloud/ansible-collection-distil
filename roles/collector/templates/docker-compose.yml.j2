@@ -34,10 +34,10 @@ services:
         read_only: false
       - type: bind
         source: {{ distil_ssl_cacert }}
-        target: {{ distil_ssl_cacert }}
+        target: /opt/distil/ssl/ca.crt
         read_only: true
     environment:
-      - REQUESTS_CA_BUNDLE={{ distil_ssl_cacert }}
+      - REQUESTS_CA_BUNDLE=/opt/distil/ssl/ca.crt
     entrypoint:
       - distil-collector
     command:

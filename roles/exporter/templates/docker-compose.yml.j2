@@ -26,14 +26,14 @@ services:
         read_only: false
       - type: bind
         source: {{ distil_ssl_cacert }}
-        target: {{ distil_ssl_cacert }}
+        target: /opt/distil/ssl/ca.crt
         read_only: true
       - type: bind
         source: {{ distil_exporter_base_dir }}/distil-exporter.wsgi
-        target: /opt/distil/distil-exporter.wsgi
+        target: /opt/distil/wsgi/distil-exporter
         read_only: true
     environment:
-      - REQUESTS_CA_BUNDLE={{ distil_ssl_cacert }}
+      - REQUESTS_CA_BUNDLE=/opt/distil/ssl/ca.crt
       - UWSGI_WSGI_ENV_BEHAVIOR=holy
       - UWSGI_HTTP={{ distil_exporter_address }}:{{ distil_exporter_port }}
       - UWSGI_HTTP_AUTO_CHUNKED=1
@@ -50,4 +50,4 @@ services:
     entrypoint:
       - uwsgi
     command:
-      - --wsgi-file=/opt/distil/distil-exporter.wsgi
+      - --wsgi-file=/opt/distil/wsgi/distil-exporter

@@ -13,6 +13,7 @@
     - name: Delete Keystone catalog service
       openstack.cloud.catalog_service:
         name: "{{ distil_keystone_service_name }}"
+        type: "{{ distil_keystone_service_type }}"
         state: absent
         cloud: "{{ distil_keystone_ansible_auth_cloud | default(omit) }}"
     - name: Delete Keystone user

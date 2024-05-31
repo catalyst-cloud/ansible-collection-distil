@@ -26,24 +26,24 @@ services:
         read_only: false
       - type: bind
         source: {{ distil_ssl_cert }}
-        target: {{ distil_ssl_cert }}
+        target: /opt/distil/ssl/cert.crt
         read_only: true
       - type: bind
         source: {{ distil_ssl_key }}
-        target: {{ distil_ssl_key }}
+        target: /opt/distil/ssl/cert.key
         read_only: true
       - type: bind
         source: {{ distil_ssl_cacert }}
-        target: {{ distil_ssl_cacert }}
+        target: /opt/distil/ssl/ca.crt
         read_only: true
       - type: bind
         source: {{ distil_api_base_dir }}/distil-api.wsgi
-        target: /opt/distil/distil-api.wsgi
+        target: /opt/distil/wsgi/distil-api
         read_only: true
     environment:
-      - REQUESTS_CA_BUNDLE={{ distil_ssl_cacert }}
+      - REQUESTS_CA_BUNDLE=/opt/distil/ssl/ca.crt
       - UWSGI_WSGI_ENV_BEHAVIOR=holy
-      - UWSGI_HTTPS={{ distil_api_address }}:{{ distil_api_port }},{{ distil_ssl_cert }},{{ distil_ssl_key }},HIGH
+      - UWSGI_HTTPS={{ distil_api_address }}:{{ distil_api_port }},/opt/distil/ssl/cert.crt,/opt/distil/ssl/cert.key,HIGH
       - UWSGI_HTTP_AUTO_CHUNKED=1
       - UWSGI_HTTP_KEEPALIVE=1
       - UWSGI_WORKERS=3
@@ -57,4 +57,4 @@ services:
     entrypoint:
       - uwsgi
     command:
-      - --wsgi-file=/opt/distil/distil-api.wsgi
+      - --wsgi-file=/opt/distil/wsgi/distil-api
