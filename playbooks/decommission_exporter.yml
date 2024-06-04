@@ -1,0 +1,7 @@
+---
+
+- name: Disable Distil Exporter (dedicated hosts)
+  ansible.builtin.import_playbook: disable_exporter.yml
+
+- name: Uninstall Distil Exporter (dedicated hosts)
+  ansible.builtin.import_playbook: uninstall_exporter.yml

@@ -1,0 +1,29 @@
+---
+
+- name: Deploy Distil Exporter (dedicated nodes)
+  hosts: distil_exporter:!distil
+  become: true
+  serial: 1
+  tasks:
+    - name: Run pre-deploy tasks for Distil Exporter
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.exporter
+        tasks_from: predeploy
+    - name: Run pre-deploy tasks for Distil Base
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.base
+        tasks_from: predeploy
+    - name: Deploy Distil Base
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.base
+    - name: Deploy Distil Exporter
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.exporter
+    - name: Run post-deploy tasks for Distil Exporter
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.exporter
+        tasks_from: postdeploy
+    - name: Run post-deploy tasks for Distil Base
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.base
+        tasks_from: postdeploy

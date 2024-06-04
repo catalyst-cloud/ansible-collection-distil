@@ -1,0 +1,12 @@
+---
+
+- name: Verify Distil disable on all hosts
+  hosts: distil
+  become: true
+  tasks:
+    - name: Check that all Distil containers have been destroyed
+      ansible.builtin.command:
+        cmd: docker ps --all
+      register: existing_containers
+      changed_when: false
+      failed_when: "'distil' in existing_containers.stdout"

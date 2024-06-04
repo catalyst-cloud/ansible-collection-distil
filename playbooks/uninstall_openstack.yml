@@ -1,0 +1,12 @@
+---
+
+- name: Uninstall Distil OpenStack resources
+  hosts: localhost
+  gather_facts: false
+  become: false  # Don't escalate on localhost.
+  tasks:
+    - name: Uninstall Distil Keystone resources
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.keystone
+        tasks_from: uninstall
+      when: distil_keystone_enable | default(True)

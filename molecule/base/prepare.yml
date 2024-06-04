@@ -1,0 +1,45 @@
+---
+
+- name: Create self-signed certificates
+  hosts: distil
+  become: true
+  tasks:
+    - name: Create SSL keypair (if defined)
+      when: distil_ssl_key | default(None)
+      block:
+        - name: Create private key (RSA, 4096 bits)
+          community.crypto.openssl_privatekey:
+            path: "{{ distil_ssl_key }}"
+            owner: root
+            group: "{{ distil_user_gid | string }}"
+            mode: "0640"
+        - name: Create self-signed certificate
+          community.crypto.x509_certificate:
+            path: "{{ distil_ssl_cert }}"
+            privatekey_path: "{{ distil_ssl_key }}"
+            provider: selfsigned
+            owner: root
+            group: "{{ distil_user_gid | string }}"
+            mode: "0640"
+
+- name: Start MariaDB
+  hosts: distil[0]
+  become: true
+  tasks:
+    - name: Start MariaDB
+      community.docker.docker_container:
+        name: mariadb
+        image: mariadb:11.3.2
+        state: started
+        ports:
+          - "127.0.0.1:3306:3306"
+        env:
+          MARIADB_RANDOM_ROOT_PASSWORD: "1"
+          MARIADB_USER: "{{ distil_database_username }}"
+          MARIADB_PASSWORD: "{{ distil_database_password }}"
+          MARIADB_DATABASE: "{{ distil_database_name }}"
+    - name: Wait until MariaDB is online
+      ansible.builtin.wait_for:
+        host: "127.0.0.1"
+        port: 3306
+        timeout: 300

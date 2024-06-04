@@ -1,0 +1,11 @@
+---
+
+- name: Install Distil OpenStack resources
+  hosts: localhost
+  gather_facts: false
+  become: false  # Don't escalate on localhost.
+  tasks:
+    - name: Install Distil Keystone resources
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.keystone
+      when: distil_keystone_enable | default(True)

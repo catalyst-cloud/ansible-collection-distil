@@ -1,0 +1,11 @@
+---
+
+- name: Migrate Distil
+  hosts: distil:distil_manage[0]
+  become: true
+  serial: 1
+  tasks:
+    - name: Migrate Distil
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.manage
+        tasks_from: migrate

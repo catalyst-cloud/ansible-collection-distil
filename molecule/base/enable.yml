@@ -1,0 +1,4 @@
+---
+
+- name: Enable Distil
+  ansible.builtin.import_playbook: catalystcloud.distil.enable

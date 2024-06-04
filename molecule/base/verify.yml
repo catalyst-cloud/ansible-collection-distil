@@ -1,0 +1,217 @@
+---
+
+- name: Verify Distil Base
+  hosts: distil
+  become: true
+  tasks:
+    - name: Get user metadata
+      ansible.builtin.getent:
+        database: passwd
+        key: distil
+    - name: Check that the Distil service user has the correct UID
+      ansible.builtin.assert:
+        that:
+          - (getent_passwd['distil'][1] | int) == 305
+        fail_msg: "Distil service user has the incorrect UID {{ getent_passwd['distil'][1] }}"
+        quiet: true
+    - name: Check that the Distil service user has the correct GID
+      ansible.builtin.assert:
+        that:
+          - (getent_passwd['distil'][2] | int) == 305
+        fail_msg: "Distil service user has the incorrect GID {{ getent_passwd['distil'][2] }}"
+        quiet: true
+    - name: Check that the Distil service user has the correct home directory
+      ansible.builtin.assert:
+        that:
+          - getent_passwd['distil'][4] == '/opt/distil/lib'
+        fail_msg: "Distil service user has the incorrect home directory {{ getent_passwd['distil'][4] }}"
+        quiet: true
+    - name: Check Distil service user additional groups (if defined)
+      when: distil_user_groups | default([])
+      block:
+        - name: Get group metadata
+          ansible.builtin.getent:
+            database: group
+        - name: Check that the Distil service user was added to all additional groups
+          ansible.builtin.assert:
+            that:
+              - "'distil' in getent_group[item][2].split(',')"
+            fail_msg: "Distil service user was not added to the group '{{ item }}'"
+            quiet: true
+          loop: "{{ distil_user_groups }}"
+    - name: Check that the base configuration file exists
+      ansible.builtin.stat:
+        path: /opt/distil/etc/distil.conf
+      register: config_file
+      failed_when: not (config_file.stat.exists | default(False))
+    - name: Check that the meter mappings file exists
+      ansible.builtin.stat:
+        path: /opt/distil/etc/meter_mappings.yml
+      register: metermappings_file
+      failed_when: not (metermappings_file.stat.exists | default(False))
+    - name: Check that the transformer file exists
+      ansible.builtin.stat:
+        path: /opt/distil/etc/transformer.yml
+      register: transformer_file
+      failed_when: not (transformer_file.stat.exists | default(False))
+    - name: Check that the JSON file ERP driver products file exists
+      ansible.builtin.stat:
+        path: /opt/distil/etc/products.json
+      register: products_file
+      failed_when: not (products_file.stat.exists | default(False))
+    - name: Check that the Keystone policy file exists
+      ansible.builtin.stat:
+        path: /opt/distil/etc/policy.yaml
+      register: policy_file
+      failed_when: not (policy_file.stat.exists | default(False))
+    - name: Check that the runtime volume directory (service home directory) exists
+      ansible.builtin.stat:
+        path: /opt/distil/lib
+      register: runtime_dir
+      failed_when: not (runtime_dir.stat.exists | default(False))
+    - name: Check that the logging directory exists
+      ansible.builtin.stat:
+        path: /var/log/distil
+      register: log_dir
+      failed_when: not (log_dir.stat.exists | default(False))
+    - name: Check that the logrotate config file exists
+      ansible.builtin.stat:
+        path: /etc/logrotate.d/distil-logs
+      register: logrotate_file
+      failed_when: not (logrotate_file.stat.exists | default(False))
+
+- name: Verify Distil Manage
+  hosts: distil
+  become: true
+  tasks:
+    - name: Check that the service README file exists
+      ansible.builtin.stat:
+        path: /opt/distil/manage/README.md
+      register: readme_file
+      failed_when: not (readme_file.stat.exists | default(False))
+    - name: Check that the service compose file exists
+      ansible.builtin.stat:
+        path: /opt/distil/manage/docker-compose.yml
+      register: dockercompose_file
+      failed_when: not (dockercompose_file.stat.exists | default(False))
+
+- name: Verify Distil API
+  hosts: distil
+  become: true
+  tasks:
+    - name: Check that the WSGI script file exists
+      ansible.builtin.stat:
+        path: /opt/distil/api/distil-api.wsgi
+      register: wsgi_file
+      failed_when: not (wsgi_file.stat.exists | default(False))
+    - name: Check that the service README file exists
+      ansible.builtin.stat:
+        path: /opt/distil/api/README.md
+      register: readme_file
+      failed_when: not (readme_file.stat.exists | default(False))
+    - name: Check that the service compose file exists
+      ansible.builtin.stat:
+        path: /opt/distil/api/docker-compose.yml
+      register: dockercompose_file
+      failed_when: not (dockercompose_file.stat.exists | default(False))
+    - name: Get service container info
+      community.docker.docker_container_info:
+        name: distil-api
+      register: result
+    - name: Check that the service container is running
+      ansible.builtin.assert:
+        that:
+          - result.container.State.Running
+        success_msg: Container is running
+        fail_msg: Container is not running
+        quiet: true
+    - name: Check that Distil API is online
+      ansible.builtin.wait_for:
+        host: "{{ ansible_default_ipv4.address }}"
+        port: 9999
+        timeout: 30
+
+- name: Verify Distil Exporter
+  hosts: distil
+  become: true
+  tasks:
+    - name: Check that the WSGI script file exists
+      ansible.builtin.stat:
+        path: /opt/distil/exporter/distil-exporter.wsgi
+      register: wsgi_file
+      failed_when: not (wsgi_file.stat.exists | default(False))
+    - name: Check that the service README file exists
+      ansible.builtin.stat:
+        path: /opt/distil/exporter/README.md
+      register: readme_file
+      failed_when: not (readme_file.stat.exists | default(False))
+    - name: Check that the service compose file exists
+      ansible.builtin.stat:
+        path: /opt/distil/exporter/docker-compose.yml
+      register: dockercompose_file
+      failed_when: not (dockercompose_file.stat.exists | default(False))
+    - name: Get service container info
+      community.docker.docker_container_info:
+        name: distil-exporter
+      register: result
+    - name: Check that the service container is running
+      ansible.builtin.assert:
+        that:
+          - result.container.State.Running
+        success_msg: Container is running
+        fail_msg: Container is not running
+        quiet: true
+    - name: Check that Distil Exporter is online
+      ansible.builtin.wait_for:
+        host: "{{ ansible_default_ipv4.address }}"
+        port: 16798
+        timeout: 30
+
+- name: Verify Distil Collector
+  hosts: distil
+  become: true
+  tasks:
+    - name: Check that the service README file exists
+      ansible.builtin.stat:
+        path: "/opt/distil/collector{{ item }}/README.md"
+      register: readme_file
+      failed_when: not (readme_file.stat.exists | default(False))
+      loop:
+        - ""
+    - name: Check that the service compose files exist
+      ansible.builtin.stat:
+        path: "/opt/distil/collector{{ item }}/docker-compose.yml"
+      register: dockercompose_file
+      failed_when: not (dockercompose_file.stat.exists | default(False))
+      loop:
+        - ""
+    - name: Check that the collector configuration files exist
+      ansible.builtin.stat:
+        path: "/opt/distil/collector{{ item }}/distil.conf"
+      register: config_file
+      failed_when: not (config_file.stat.exists | default(False))
+      loop:
+        - ""
+    - name: Get container info
+      community.docker.docker_container_info:
+        name: "distil-collector{{ item }}"
+      register: result
+      loop:
+        - ""
+    - name: Check that the service container is running
+      ansible.builtin.assert:
+        that:
+          - item.container.State.Running
+        success_msg: Container is running
+        fail_msg: Container is not running
+        quiet: true
+      loop: "{{ result.results }}"
+      loop_control:
+        label: "{{ item.item }}"
+    - name: Check that the Distil Collector Exporters are online
+      ansible.builtin.wait_for:
+        host: "{{ ansible_default_ipv4.address }}"
+        port: "{{ item }}"
+        timeout: 30
+      loop:
+        - 16799

@@ -1,0 +1,74 @@
+---
+
+dependency:
+  name: galaxy
+  options:
+    requirements-file: requirements.yml
+
+driver:
+  name: default
+  options:
+    managed: false
+    ansible_connection_options:
+      ansible_connection: local
+
+platforms:
+  - name: localhost
+    groups:
+      - distil
+
+provisioner:
+  name: ansible
+  playbooks:
+    prepare: prepare.yml
+    converge: ../base/converge.yml
+    verify: ../base/verify.yml
+    side_effect: ../base/converge.yml
+    cleanup: ../base/cleanup.yml
+  # config_options:
+  #   defaults:
+  #     timeout: 30   # Uncomment to crease SSH and privilege escalation timeout.
+  #     verbosity: 3  # Uncomment to increase Ansible verbosity. Default is 0.
+  #   diff:
+  #     always: true  # Uncomment to show task diffs.
+  inventory:
+    group_vars:
+      distil:
+        distil_user_gid: 305
+        distil_ssl_cert: "/tmp/molecule-distil.crt"
+        distil_ssl_key: "/tmp/molecule-distil.key"
+        distil_database_hosts:
+          - "localhost:3306"
+        distil_database_username: "distil"
+        distil_database_password: "123456"
+        distil_database_name: "distil"
+        # NOTE(callumdickinson): Do not run Distil Keystone resource management
+        # in Molecule, as Keystone is not installed in the environment.
+        distil_keystone_enable: false
+
+verifier:
+  name: ansible
+
+scenario:
+  test_sequence:
+    - dependency
+    - cleanup
+    - syntax
+    - create
+    - prepare
+    - check
+    - converge
+    - idempotence
+    - verify
+    - side_effect ../base/stop.yml
+    - verify ../base/verify_stop.yml
+    - side_effect ../base/enable.yml
+    - verify
+    - side_effect ../base/disable.yml
+    - verify ../base/verify_disable.yml
+    - side_effect ../base/enable.yml
+    - verify
+    - side_effect ../base/decommission.yml
+    - verify ../base/verify_decommission.yml
+    - cleanup
+    - destroy

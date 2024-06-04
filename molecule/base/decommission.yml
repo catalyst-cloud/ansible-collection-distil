@@ -1,0 +1,4 @@
+---
+
+- name: Decommission Distil
+  ansible.builtin.import_playbook: catalystcloud.distil.decommission

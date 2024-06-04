@@ -1,0 +1,11 @@
+---
+
+- name: Uninstall Distil Base
+  hosts: distil:distil_api:distil_manage:distil_exporter:distil_collector
+  become: true
+  serial: 1
+  tasks:
+    - name: Uninstall Distil Base
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.base
+        tasks_from: uninstall

@@ -1,0 +1,4 @@
+---
+
+- name: Uninstall Distil Manage (dedicated hosts)
+  ansible.builtin.import_playbook: uninstall_manage.yml

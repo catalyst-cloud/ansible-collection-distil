@@ -1,0 +1,11 @@
+---
+
+- name: Install Distil Exporter
+  hosts: distil:distil_exporter
+  become: true
+  serial: 1
+  tasks:
+    - name: Install Distil Exporter
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.exporter
+        tasks_from: install

@@ -1,0 +1,33 @@
+---
+
+# Base for constructing the collector base subdirectory paths.
+# Non-default collectors will have '-<collector-name>' appended to the end of the path.
+distil_collector_base_dir_base: "{{ distil_base_dir }}/collector"
+
+# Project name to use when managing service containers via Docker Compose.
+# Non-default collectors will have '-<collector-name>' appended to the end of the name.
+distil_collector_compose_project_name_base: "distil-collector"
+
+# Base container name for the Distil Collector services.
+# Non-default collectors will have '-<collector-name>' appended to the end of the name.
+# Set to null to auto-generate.
+distil_collector_container_name_base: "distil-collector"
+
+# Service-specific SSL settings.
+# By default, use the global Distil values.
+distil_collector_ssl_cacert: "{{ distil_ssl_cacert }}"
+
+# Distil Collector options.
+distil_collector_periodic_interval: 3600  # Collect usage at least once every hour.
+distil_collector_collect_window: 1  # Collect in 1 hour increments (1 hour every window).
+distil_collector_max_windows_per_cycle: 12  # Collect up to 12 windows per collection run.
+distil_collector_trust_sources:
+  - "openstack"
+  - ".{32}:TrafficAccounting"
+distil_collector_max_collection_start_age: 864  # 864 hours (36 days)
+
+# Distil Collector Exporter options.
+distil_collector_exporter_enable: true
+distil_collector_exporter_address: "0.0.0.0"
+distil_collector_exporter_port: 16799  # Applies to the default collector only.
+distil_collector_exporter_start_timeout: 300  # seconds

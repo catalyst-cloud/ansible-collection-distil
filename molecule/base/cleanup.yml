@@ -1,0 +1,28 @@
+---
+
+- name: Decommission Distil
+  ansible.builtin.import_playbook: catalystcloud.distil.decommission
+
+- name: Destroy MariaDB
+  hosts: distil[0]
+  become: true
+  tasks:
+    - name: Destroy MariaDB
+      community.docker.docker_container:
+        name: mariadb
+        state: absent
+
+- name: Cleanup temporary files
+  hosts: distil
+  become: true
+  tasks:
+    - name: Delete SSL keypair (if created)
+      when: distil_ssl_key | default(None)
+      block:
+        - name: Cleanup temporary files
+          ansible.builtin.file:
+            path: "{{ item }}"
+            state: absent
+          loop:
+            - "{{ distil_ssl_cert }}"
+            - "{{ distil_ssl_key }}"

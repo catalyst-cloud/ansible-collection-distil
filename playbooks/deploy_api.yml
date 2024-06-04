@@ -1,0 +1,29 @@
+---
+
+- name: Deploy Distil API (dedicated nodes)
+  hosts: distil_api:!distil
+  become: true
+  serial: 1
+  tasks:
+    - name: Run pre-deploy tasks for Distil API
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.api
+        tasks_from: predeploy
+    - name: Run pre-deploy tasks for Distil Base
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.base
+        tasks_from: predeploy
+    - name: Deploy Distil Base
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.base
+    - name: Deploy Distil API
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.api
+    - name: Run post-deploy tasks for Distil API
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.api
+        tasks_from: postdeploy
+    - name: Run post-deploy tasks for Distil Base
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.base
+        tasks_from: postdeploy

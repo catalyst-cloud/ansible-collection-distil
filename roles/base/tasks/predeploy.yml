@@ -1,0 +1,8 @@
+---
+
+- name: Import common variables
+  ansible.builtin.import_role:
+    name: common
+
+# NOTE(callumdickinson): Add tasks to run before starting the deploy here.
+# Examples include stopping and disabling old services.

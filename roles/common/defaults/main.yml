@@ -1,0 +1,106 @@
+---
+
+# Distil container image, common to all services.
+distil_container_image_uri: "ghcr.io/catalyst-cloud/distil-docker"
+distil_container_image_tag: "queens"
+
+# Names for the Distil service user and group.
+distil_user_name: "distil"
+distil_user_group: "distil"
+
+# UID/GID for the Distil service user and group.
+distil_user_uid: 305
+distil_user_gid: 305
+
+# Base directories created for Distil service files.
+distil_base_dir: "/opt/distil"
+distil_config_dir: "{{ distil_base_dir }}/etc"
+distil_lib_dir: "{{ distil_base_dir }}/lib"
+
+# Group to assign to directories that need to be accessible by users who can use Docker.
+distil_docker_group: "root"
+
+# Logging directory options.
+distil_log_dir: "/var/log/distil"
+distil_log_dir_group: "{{ distil_user_group }}"
+distil_log_dir_mode: "0750"
+
+# Enable SSL encryption on public facing Distil services.
+# Disabling this makes testing easier.
+# For a production deployment, to facilitate end-to-end encrypted traffic,
+# this should be enabled.
+distil_ssl_enable: true
+# Distil SSL certificate file locations on the host.
+# The host paths should be overridden to the locations specific to the host in the inventory.
+# distil_ssl_cert: "/etc/ssl/certs/ssl-cert-snakeoil.pem"
+# distil_ssl_key: "/etc/ssl/private/ssl-cert-snakeoil.key"
+distil_ssl_cacert: "/etc/ssl/certs/ca-certificates.crt"
+
+# Operating timezone for the Distil services.
+# Billing itself is always in UTC. This mainly effects logging.
+distil_timezone: "Etc/UTC"
+
+# Distil database settings.
+distil_database_flavor: "mysql"
+distil_database_library: "pymysql"
+distil_database_protocol: "{{ distil_database_flavor }}+{{ distil_database_library }}"
+distil_database_hosts:
+  - "localhost:3306"
+distil_database_username: "distil"
+distil_database_password: "123456"
+distil_database_name: "distil"
+distil_database_connection_url: "{{ distil_database_protocol }}://\
+  {% if distil_database_username is defined %}{{ distil_database_username }}\
+  {% if distil_database_password is defined %}:{{ distil_database_password }}\
+  {% endif %}@{% endif %}\
+  {{ distil_database_hosts | join(',') }}/{{ distil_database_name }}"
+
+# Distil API external hostname, bind address and listening port.
+distil_api_hostname: "localhost"
+distil_api_address: "0.0.0.0"
+distil_api_port: 9999
+
+# Distil Collector settings.
+#
+# The Distil Collectors to create, with per-collector options.
+# When running multiple collectors they all run in parallel, which is useful for
+# e.g. isolating collection of projects, to ensure large projects for internal use
+# do not interfere with collection of customer projects.
+# Available options:
+#  * name - Unique name for the collector. Required.
+#           Set to `null` to not assign a name (default collector).
+#  * include_domains - List of OpenStack domains to collect using this collector (allowlist).
+#  * ignore_domains - List of OpenStack domains to ignore for collection (blocklist).
+#                     include_domains takes precedence.
+#  * include_projects - List of OpenStack projects to collect using this collector (allowlist).
+#                       Can be combined with include_domains/ignore_domains.
+#  * ignore_projects - List of OpenStack projects to ignore for collection (blocklist).
+#                      Can be combined with include_domains/ignore_domains.
+#                      include_projects takes precedence.
+#  * exporter_enable - Enable Distil Collector Exporter for this collector.
+#                      Default is to use the global value (distil_collector_exporter_enable).
+#  * exporter_port - Distil Collector Exporter port for this collector, if enabled.
+#                    Must be unique for each collector on a host.
+#                    Default is to use the global value (distil_collector_exporter_port).
+distil_collectors:
+  # Default: Create a single collector (the default collector). Collect all domains and projects.
+  - name: null
+
+# Distil Exporter bind address and listening port.
+distil_exporter_address: "0.0.0.0"
+distil_exporter_port: 16798
+
+# Distil OpenStack settings.
+distil_openstack_region: "1.example.com"
+
+# Distil Keystone auth settings.
+distil_keystone_auth_url: "http://api.example.com:5000"
+distil_keystone_auth_version: "v3"
+distil_keystone_auth_url_full: "{{ distil_keystone_auth_url }}/{{ distil_keystone_auth_version }}"
+
+# Distil Keystone user settings.
+distil_keystone_user_name: "distil"
+distil_keystone_user_password: "123456"
+distil_keystone_user_email: "distil@localhost"
+distil_keystone_user_project: "services"
+distil_keystone_user_domain: "Default"

@@ -1,0 +1,11 @@
+---
+
+- name: Run post-deploy tasks for Distil Collector
+  hosts: distil:distil_collector
+  become: true
+  serial: 1
+  tasks:
+    - name: Run post-deploy tasks for Distil Collector
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.collector
+        tasks_from: postdeploy

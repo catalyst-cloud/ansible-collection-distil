@@ -1,0 +1,11 @@
+---
+
+- name: Run post-deploy tasks for Distil Exporter
+  hosts: distil:distil_exporter
+  become: true
+  serial: 1
+  tasks:
+    - name: Run post-deploy tasks for Distil Exporter
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.exporter
+        tasks_from: postdeploy

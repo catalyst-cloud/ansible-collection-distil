@@ -1,0 +1,16 @@
+---
+
+- name: Run post-deploy tasks for Distil Collector
+  ansible.builtin.import_playbook: postdeploy_collector.yml
+
+- name: Run post-deploy tasks for Distil Exporter
+  ansible.builtin.import_playbook: postdeploy_exporter.yml
+
+- name: Run post-deploy tasks for Distil API
+  ansible.builtin.import_playbook: postdeploy_api.yml
+
+- name: Run post-deploy tasks for Distil Manage
+  ansible.builtin.import_playbook: postdeploy_manage.yml
+
+- name: Run post-deploy tasks for Distil OpenStack resources
+  ansible.builtin.import_playbook: postdeploy_openstack.yml

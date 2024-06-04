@@ -1,0 +1,38 @@
+---
+
+name: "{{ distil_manage_compose_project_name }}"
+
+services:
+  {{ distil_db_manage_container_name | default('distil-db-manage', True) }}:
+{% if distil_db_manage_container_name %}
+    container_name: {{ distil_db_manage_container_name }}
+{% endif %}
+    image: {{ distil_container_image_uri }}:{{ distil_container_image_tag }}
+    network_mode: host
+    user: "{{ distil_user_uid }}:{{ distil_user_gid }}"
+    volumes:
+      - type: bind
+        source: {{ distil_config_dir }}
+        target: /etc/distil
+        read_only: true
+      - type: bind
+        source: {{ distil_lib_dir }}
+        target: /var/lib/distil
+        read_only: false
+      - type: bind
+        source: {{ distil_log_dir }}
+        target: /var/log/distil
+        read_only: false
+      - type: bind
+        source: {{ distil_manage_ssl_cacert }}
+        target: /opt/distil/ssl/ca.crt
+        read_only: true
+    environment:
+      - REQUESTS_CA_BUNDLE=/opt/distil/ssl/ca.crt
+    entrypoint:
+      - distil-db-manage
+    command:
+      - --config-file
+      - /etc/distil/distil.conf
+      - upgrade
+      - head

@@ -1,0 +1,13 @@
+---
+
+- name: Import common variables
+  ansible.builtin.import_role:
+    name: common
+
+- name: Disable Distil Collector
+  ansible.builtin.include_tasks:
+    file: subtasks/disable.yml
+  loop: "{{ distil_collectors }}"
+  loop_control:
+    loop_var: distil_collector
+    label: "{{ distil_collector.name | default(None) }}"

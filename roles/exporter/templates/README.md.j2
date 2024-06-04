@@ -1,0 +1,43 @@
+# Distil Exporter
+
+All commands should be run from the service directory.
+
+```bash
+cd {{ distil_exporter_base_dir }}
+```
+
+## Enable
+
+Run the following command to start the service container (if not already running).
+The container will run automatically on startup.
+
+```bash
+docker compose up -d
+```
+
+## Stop
+
+Run the following command to temporarily stop the service container, if it is running.
+Note that this is only a temporary stop. If the host is rebooted, the container will restart.
+
+```bash
+docker compose stop
+```
+
+## Disable
+
+Run the following command to stop and destroy the service container, so it will not
+start automatically on boot.
+
+```bash
+docker compose down
+```
+
+## Checks
+
+You can use any of the following commands to check service status.
+
+```bash
+docker compose top
+docker compose ps
+```

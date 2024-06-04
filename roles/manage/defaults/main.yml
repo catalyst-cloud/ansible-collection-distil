@@ -1,0 +1,14 @@
+---
+
+# Base subdirectory for this particular service.
+distil_manage_base_dir: "{{ distil_base_dir }}/manage"
+
+# Project name to use when managing service containers via Docker Compose.
+distil_manage_compose_project_name: "distil-manage"
+
+# Container name for the Distil DB Manage service. Set to null to auto-generate.
+distil_db_manage_container_name: "distil-db-manage"
+
+# Service-specific SSL settings.
+# By default, use the global Distil values.
+distil_manage_ssl_cacert: "{{ distil_ssl_cacert }}"

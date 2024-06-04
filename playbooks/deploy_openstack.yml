@@ -1,0 +1,21 @@
+---
+
+- name: Deploy Distil OpenStack resources
+  hosts: localhost
+  gather_facts: false
+  become: false  # Don't escalate on localhost.
+  tasks:
+    - name: Manage Distil Keystone resources (if enabled)
+      when: distil_keystone_enable | default(True)
+      block:
+        - name: Run pre-deploy tasks for Distil Keystone resources
+          ansible.builtin.include_role:
+            name: catalystcloud.distil.keystone
+            tasks_from: predeploy
+        - name: Deploy Distil Keystone resources
+          ansible.builtin.include_role:
+            name: catalystcloud.distil.keystone
+        - name: Run post-deploy tasks for Distil Keystone resources
+          ansible.builtin.include_role:
+            name: catalystcloud.distil.keystone
+            tasks_from: postdeploy

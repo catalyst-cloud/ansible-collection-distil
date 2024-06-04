@@ -1,0 +1,4 @@
+---
+
+- name: Stop Distil
+  ansible.builtin.import_playbook: catalystcloud.distil.stop

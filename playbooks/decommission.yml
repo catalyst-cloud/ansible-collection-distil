@@ -1,0 +1,7 @@
+---
+
+- name: Disable Distil
+  ansible.builtin.import_playbook: disable.yml
+
+- name: Uninstall Distil
+  ansible.builtin.import_playbook: uninstall.yml

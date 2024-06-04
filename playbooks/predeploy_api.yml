@@ -1,0 +1,11 @@
+---
+
+- name: Run pre-deploy tasks for Distil API
+  hosts: distil:distil_api
+  become: true
+  serial: 1
+  tasks:
+    - name: Run pre-deploy tasks for Distil API
+      ansible.builtin.include_role:
+        name: catalystcloud.distil.api
+        tasks_from: predeploy

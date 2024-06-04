@@ -1,0 +1,9 @@
+{{ distil_log_dir }}/*.log {
+  compress
+  copytruncate
+  delaycompress
+  missingok
+  notifempty
+  daily
+  rotate 5
+}

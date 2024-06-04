@@ -1,0 +1,4 @@
+---
+
+# Matches the oldest supported version of the community.docker collection.
+requires_ansible: ">=2.11.0"

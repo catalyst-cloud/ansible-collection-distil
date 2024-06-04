@@ -1,0 +1,10 @@
+---
+
+- name: Stop Distil Collector
+  ansible.builtin.import_playbook: stop_collector.yml
+
+- name: Stop Distil Exporter
+  ansible.builtin.import_playbook: stop_exporter.yml
+
+- name: Stop Distil API
+  ansible.builtin.import_playbook: stop_api.yml

@@ -1,0 +1,19 @@
+---
+
+- name: Run per-collector common tasks
+  ansible.builtin.include_tasks:
+    file: common.yml
+
+- name: "Check if the service compose file exists{{ distil_collector_temp_description }}"
+  ansible.builtin.stat:
+    path: "{{ distil_collector_temp_base_dir }}/docker-compose.yml"
+  register: distil_collector_temp_dockercompose_yml
+
+- name: "Destroy service containers (if the compose file exists){{ distil_collector_temp_description }}"
+  community.docker.docker_compose_v2:
+    project_name: "{{ distil_collector_temp_compose_project_name }}"
+    project_src: "{{ distil_collector_temp_base_dir }}"
+    state: absent
+    remove_volumes: false
+    remove_orphans: false
+  when: distil_collector_temp_dockercompose_yml.stat.exists | default(False)

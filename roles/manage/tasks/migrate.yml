@@ -1,0 +1,21 @@
+---
+
+- name: Import common variables
+  ansible.builtin.import_role:
+    name: common
+
+- name: Migrate Distil database
+  ansible.builtin.command:
+    argv:
+      - docker
+      - compose
+      - --file
+      - docker-compose.yml
+      - run
+      - --rm
+      - "{{ distil_db_manage_container_name | default('distil-db-manage', True) }}"
+    chdir: "{{ distil_manage_base_dir }}"
+  register: distil_temp_db_manage
+  changed_when: "'Running upgrade' in distil_temp_db_manage.stderr"
+  when: not ansible_check_mode
+  run_once: true
