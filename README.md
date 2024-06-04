@@ -581,10 +581,11 @@ python -m pip install -r requirements.txt
 
 Once that is done, you should be able to use the `molecule` command to run tests.
 
-There are two test scenarios:
+The following Molecule scenarios can be run:
 
 * `install` - Test the playbooks for the standard deploy of Distil to a region where it is already running.
 * `upgrade` - Test the playbooks for version upgrades (and also deploying Distil to a new region).
+* `ssl_disable` - Test the scenario where public facing Distil services are bound to HTTP ports, rather than HTTPS.
 
 ```bash
 molecule test --scenario-name <scenario-name>
