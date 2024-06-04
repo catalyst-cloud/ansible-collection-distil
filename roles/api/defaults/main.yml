@@ -9,6 +9,13 @@ distil_api_compose_project_name: "distil-api"
 # Container name for the Distil API service. Set to null to auto-generate.
 distil_api_container_name: "distil-api"
 
+# Service-specific SSL settings.
+# By default, use the global Distil values.
+distil_api_ssl_enable: "{{ distil_ssl_enable }}"
+distil_api_ssl_cert: "{{ distil_ssl_cert }}"
+distil_api_ssl_key: "{{ distil_ssl_key }}"
+distil_api_ssl_cacert: "{{ distil_ssl_cacert }}"
+
 # The time to wait for Distil API to open its ports during startup, in seconds.
 distil_api_start_timeout: 300
 

@@ -212,9 +212,13 @@ make sure the target hosts have at least one of the above groups assigned to it.
 * `distil_log_dir` - The target directory for Distil service log files on the host. Default is `/var/log/distil`.
 * `distil_log_dir_group` - The group to assign to the logging directory. Default is to assign the Distil service group.
 * `distil_log_dir_mode` - The permissions for the logging directory. Default is `"0750"`.
-* `distil_ssl_cert` - Service SSL certificate filepath on the host.
-* `distil_ssl_key` - Service SSL private key filepath on the host.
-* `distil_ssl_cacert` - Service CA certificate bundle filepath on the host.
+* `distil_ssl_enable` - Whether or not public-facing Distil services should use SSL encryption. Default is `true`.
+  * When running Distil in a testing environment, disabling this makes testing easier, as you do not need to setup certificates.
+  * When enabled, the `distil_ssl_cert` and `distil_ssl_key` variables also need to be set.
+  * **For a production deployment, to facilitate end-to-end encrypted traffic, it is recommended that this option is enabled.**
+* `distil_ssl_cert` - Service SSL certificate filepath on the host. Required if `distil_ssl_enable` is enabled.
+* `distil_ssl_key` - Service SSL private key filepath on the host. Required if `distil_ssl_enable` is enabled.
+* `distil_ssl_cacert` - Service CA certificate bundle filepath on the host. Default is `/etc/ssl/certs/ca-certificates.crt`.
 * `distil_openstack_region` - The name of the OpenStack region being deployed to. Distil must be deployed individually to all regions.
 * `distil_user_name` - Distil service user name. Default is `distil`.
 * `distil_user_group` - Distil service group name. Default is `distil`.
@@ -247,15 +251,21 @@ make sure the target hosts have at least one of the above groups assigned to it.
 * `distil_api_hostname` - Hostname for Distil API that clients should use.
     * This is used to configure the service endpoints in Keystone.
 * `distil_api_port` - Bind port for Distil API. Default is `9999`.
+* `distil_api_ssl_enable` - Bind Distil API to an SSL (HTTPS) port. Default is to use the value set in `distil_ssl_enable`.
+* `distil_api_ssl_cert` - SSL certificate location on the host for Distil API. Default is to use the value set in `distil_ssl_cert`.
+* `distil_api_ssl_key` - SSL private key location on the host for Distil API. Default is to use the value set in `distil_ssl_key`.
+* `distil_api_ssl_cacert` - CA certificate location on the host for Distil API. Default is to use the value set in `distil_ssl_cacert`.
 * `distil_api_ignore_products_in_quotations` - List of products (services) to remove from quotations. Useful for hiding services that are being collected by Distil, but not yet charged. Default is to not remove any products.
 
 #### Distil Exporter configuration
 
 * `distil_exporter_port` - Bind port for Distil Exporter. Default is `16798`.
+* `distil_exporter_ssl_cacert` - CA certificate location on the host for Distil Exporter. Default is to use the value set in `distil_ssl_cacert`.
 
 #### Distil Collector configuration
 
 * `distil_collectors` - Configuration for what collectors to create and run. For more information on how to define this, refer to the `catalystcloud.distil.collector` role inventory defaults file. Default is to create a single collector (the default collector) that collects **all** existing domains and projects.
+* `distil_collector_ssl_cacert` - CA certificate location on the host for Distil Collector. Default is to use the value set in `distil_ssl_cacert`.
 * `distil_collector_periodic_interval` - The interval at which Distil Collector carries out usage collection jobs, in seconds. Default is `3600` (collect once every hour).
 * `distil_collector_collect_window` - The amount of usage Distil should collect at a time (per window), in hours. Default is `1` (collect in 1 hour windows).
 * `distil_collector_max_windows_per_cycle` - The maximum amount of windows Distil should collect for a project per collection run. Default is `12` (collect up to 12 windows).

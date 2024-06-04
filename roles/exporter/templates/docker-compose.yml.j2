@@ -25,7 +25,7 @@ services:
         target: /var/log/distil
         read_only: false
       - type: bind
-        source: {{ distil_ssl_cacert }}
+        source: {{ distil_exporter_ssl_cacert }}
         target: /opt/distil/ssl/ca.crt
         read_only: true
       - type: bind

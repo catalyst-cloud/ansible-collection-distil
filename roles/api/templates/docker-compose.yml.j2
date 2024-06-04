@@ -24,16 +24,18 @@ services:
         source: {{ distil_log_dir }}
         target: /var/log/distil
         read_only: false
+{% if distil_api_ssl_enable %}
       - type: bind
-        source: {{ distil_ssl_cert }}
+        source: {{ distil_api_ssl_cert }}
         target: /opt/distil/ssl/cert.crt
         read_only: true
       - type: bind
-        source: {{ distil_ssl_key }}
+        source: {{ distil_api_ssl_key }}
         target: /opt/distil/ssl/cert.key
         read_only: true
+{% endif %}
       - type: bind
-        source: {{ distil_ssl_cacert }}
+        source: {{ distil_api_ssl_cacert }}
         target: /opt/distil/ssl/ca.crt
         read_only: true
       - type: bind
@@ -43,7 +45,11 @@ services:
     environment:
       - REQUESTS_CA_BUNDLE=/opt/distil/ssl/ca.crt
       - UWSGI_WSGI_ENV_BEHAVIOR=holy
+{% if distil_api_ssl_enable %}
       - UWSGI_HTTPS={{ distil_api_address }}:{{ distil_api_port }},/opt/distil/ssl/cert.crt,/opt/distil/ssl/cert.key,HIGH
+{% else %}
+      - UWSGI_HTTP={{ distil_api_address }}:{{ distil_api_port }},HIGH
+{% endif %}
       - UWSGI_HTTP_AUTO_CHUNKED=1
       - UWSGI_HTTP_KEEPALIVE=1
       - UWSGI_WORKERS=3

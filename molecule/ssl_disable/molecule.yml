@@ -20,10 +20,10 @@ platforms:
 provisioner:
   name: ansible
   playbooks:
-    prepare: ../base/prepare.yml
-    converge: ../base/side_effect.yml
+    prepare: ../install/prepare.yml
+    converge: ../base/converge.yml
     verify: ../base/verify.yml
-    side_effect: ../base/side_effect.yml
+    side_effect: ../base/converge.yml
     cleanup: ../base/cleanup.yml
   # config_options:
   #   defaults:
@@ -35,7 +35,7 @@ provisioner:
     group_vars:
       distil:
         distil_user_gid: 305
-        distil_ssl_disable: false
+        distil_ssl_enable: false
         distil_database_hosts:
           - "localhost:3306"
         distil_database_username: "distil"
@@ -56,19 +56,10 @@ scenario:
     - create
     - prepare
     - check
-    - side_effect
-    - verify
-    - side_effect ../base/stop.yml
-    - verify ../base/verify_stop.yml
-    - side_effect ../base/enable.yml
-    - verify
-    - side_effect ../base/disable.yml
-    - verify ../base/verify_disable.yml
-    - side_effect ../base/enable.yml
+    - converge
+    - idempotence
     - verify
     - side_effect ../base/decommission.yml
     - verify ../base/verify_decommission.yml
-    # Run decommission again to ensure it works even if already uninstalled.
-    - side_effect ../base/decommission.yml
     - cleanup
     - destroy

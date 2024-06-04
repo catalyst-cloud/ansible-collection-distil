@@ -13,6 +13,10 @@ distil_collector_compose_project_name_base: "distil-collector"
 # Set to null to auto-generate.
 distil_collector_container_name_base: "distil-collector"
 
+# Service-specific SSL settings.
+# By default, use the global Distil values.
+distil_collector_ssl_cacert: "{{ distil_ssl_cacert }}"
+
 # Distil Collector options.
 distil_collector_periodic_interval: 3600  # Collect usage at least once every hour.
 distil_collector_collect_window: 1  # Collect in 1 hour increments (1 hour every window).

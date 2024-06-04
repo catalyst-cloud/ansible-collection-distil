@@ -25,11 +25,16 @@ distil_log_dir: "/var/log/distil"
 distil_log_dir_group: "{{ distil_user_group }}"
 distil_log_dir_mode: "0750"
 
+# Enable SSL encryption on public facing Distil services.
+# Disabling this makes testing easier.
+# For a production deployment, to facilitate end-to-end encrypted traffic,
+# this should be enabled.
+distil_ssl_enable: true
 # Distil SSL certificate file locations on the host.
 # The host paths should be overridden to the locations specific to the host in the inventory.
-distil_ssl_cert: "/etc/ssl/certs/ssl-cert-snakeoil.pem"
-distil_ssl_key: "/etc/ssl/private/ssl-cert-snakeoil.key"
-distil_ssl_cacert: "/etc/ssl/certs/ca-certificates.crt"
+# distil_ssl_cert: "/etc/ssl/certs/ssl-cert-snakeoil.pem"
+# distil_ssl_key: "/etc/ssl/private/ssl-cert-snakeoil.key"
+# distil_ssl_cacert: "/etc/ssl/certs/ca-certificates.crt"
 
 # Operating timezone for the Distil services.
 # Billing itself is always in UTC. This mainly effects logging.

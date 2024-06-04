@@ -12,4 +12,8 @@ distil_exporter_container_name: "distil-exporter"
 # The time to wait for Distil Exporter to open its ports during startup, in seconds.
 distil_exporter_start_timeout: 300
 
+# Service-specific SSL settings.
+# By default, use the global Distil values.
+distil_exporter_ssl_cacert: "{{ distil_ssl_cacert }}"
+
 # Distil Exporter bind address and port are in the common role.
