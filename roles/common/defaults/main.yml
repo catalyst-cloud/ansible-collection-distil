@@ -34,7 +34,7 @@ distil_ssl_enable: true
 # The host paths should be overridden to the locations specific to the host in the inventory.
 # distil_ssl_cert: "/etc/ssl/certs/ssl-cert-snakeoil.pem"
 # distil_ssl_key: "/etc/ssl/private/ssl-cert-snakeoil.key"
-# distil_ssl_cacert: "/etc/ssl/certs/ca-certificates.crt"
+distil_ssl_cacert: "/etc/ssl/certs/ca-certificates.crt"
 
 # Operating timezone for the Distil services.
 # Billing itself is always in UTC. This mainly effects logging.

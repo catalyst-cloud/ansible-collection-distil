@@ -246,6 +246,10 @@ make sure the target hosts have at least one of the above groups assigned to it.
 * `distil_keystone_user_domain` - The name of the default domain for the service user in Keystone. Default is `Default`.
 * `distil_keystone_ansible_auth_cloud` - Optional variable for explicitly provided credentials to authenticate with Keystone in the target region, so Ansible can create service resources. Useful in CI environments. Default is to auto-fetch session environment variables defined in the Ansible controller's environment.
 
+#### Distil Manage configuration
+
+* `distil_manage_ssl_cacert` - CA certificate location on the host for Distil Manage. Default is to use the value set in `distil_ssl_cacert`.
+
 #### Distil API configuration
 
 * `distil_api_hostname` - Hostname for Distil API that clients should use.
