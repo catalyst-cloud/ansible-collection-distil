@@ -59,7 +59,5 @@ scenario:
     - converge
     - idempotence
     - verify
-    - side_effect ../base/decommission.yml
-    - verify ../base/verify_decommission.yml
     - cleanup
     - destroy

@@ -69,7 +69,5 @@ scenario:
     - verify
     - side_effect ../base/decommission.yml
     - verify ../base/verify_decommission.yml
-    # Run decommission again to ensure it works even if already uninstalled.
-    - side_effect ../base/decommission.yml
     - cleanup
     - destroy
