@@ -16,10 +16,13 @@
   hosts: distil
   become: true
   tasks:
-    - name: Cleanup temporary files
-      ansible.builtin.file:
-        path: "{{ item }}"
-        state: absent
-      loop:
-        - "{{ distil_ssl_cert }}"
-        - "{{ distil_ssl_key }}"
+    - name: Delete SSL keypair (if created)
+      when: distil_ssl_key | default(None)
+      block:
+        - name: Cleanup temporary files
+          ansible.builtin.file:
+            path: "{{ item }}"
+            state: absent
+          loop:
+            - "{{ distil_ssl_cert }}"
+            - "{{ distil_ssl_key }}"
