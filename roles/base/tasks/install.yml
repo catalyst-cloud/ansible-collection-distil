@@ -102,8 +102,8 @@
   register: distil_base_temp_products_file
 
 - name: Create Keystone policy file (policy.yaml)
-  ansible.builtin.copy:
-    src: policy.yaml
+  ansible.builtin.template:
+    src: policy.yaml.j2
     dest: "{{ distil_config_dir }}/policy.yaml"
     owner: root
     group: "{{ distil_user_group }}"

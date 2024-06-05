@@ -4,6 +4,7 @@ log_file = /var/log/distil/distil-collector{% if distil_collector_temp_name %}-{
 timezone = {{ distil_timezone }}
 
 [collector]
+collector_backend = {{ distil_collector_driver }}
 meter_mappings_file = /etc/distil/meter_mappings.yml
 transformer_file = /etc/distil/transformer.yml
 periodic_interval = {{ distil_collector_periodic_interval }}

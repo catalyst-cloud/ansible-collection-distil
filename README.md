@@ -231,6 +231,19 @@ make sure the target hosts have at least one of the above groups assigned to it.
         * `jsonfile` (default)
         * `odoo`
     * Make sure to configure the selected ERP driver using the appropriate variables below.
+* `distil_rbac_policy` - The RBAC policy to use for controlling access to Distil resources. Default is:
+  ```yaml
+  distil_rbac_policy:
+    context_is_admin: 'role:admin'
+    responsible_for_billing: 'role:_member_ or role:billing or role:project_admin or role:project_mod'
+    admin_or_owner: 'role:admin or (project_id:%(project_id)s and rule:responsible_for_billing)'
+    default: 'rule:admin_or_owner'
+    'rating:credits:get': 'rule:admin_or_owner'
+    'rating:measurements:get': 'rule:admin_or_owner'
+    'rating:invoices:get': 'rule:admin_or_owner'
+    'rating:quotations:get': 'rule:admin_or_owner'
+    'health:get': 'rule:context_is_admin'
+  ```
 
 #### Distil Keystone configuration
 
@@ -278,6 +291,7 @@ make sure the target hosts have at least one of the above groups assigned to it.
 
 * `distil_collectors` - Configuration for what collectors to create and run. For more information on how to define this, refer to the `catalystcloud.distil.collector` role inventory defaults file. Default is to create a single collector (the default collector) that collects **all** existing domains and projects.
 * `distil_collector_ssl_cacert` - CA certificate location on the host for Distil Collector. Default is to use the value set in `distil_ssl_cacert`.
+* `distil_collector_driver` - The service to use to back Distil's usage collection. Default is `ceilometer`.
 * `distil_collector_periodic_interval` - The interval at which Distil Collector carries out usage collection jobs, in seconds. Default is `3600` (collect once every hour).
 * `distil_collector_collect_window` - The amount of usage Distil should collect at a time (per window), in hours. Default is `1` (collect in 1 hour windows).
 * `distil_collector_max_windows_per_cycle` - The maximum amount of windows Distil should collect for a project per collection run. Default is `12` (collect up to 12 windows).

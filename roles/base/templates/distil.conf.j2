@@ -8,12 +8,15 @@ debug = false
 log_dir = /var/log/distil
 # Distil service timezone.
 timezone = {{ distil_timezone }}
-# ERP driver to use when communicating with Distil.
+# The ERP driver to use for invoice and quotation handling in Distil API.
 erp_driver = {{ distil_erp_driver }}
 # Distil API bind address and port.
 # Only used when using the `distil-api` command directly (for development purposes only).
 host = {{ distil_api_address }}
 port = {{ distil_api_port }}
+# RBAC policy file.
+# Default is always policy.json.
+policy_file = policy.yaml
 
 [cache]
 enabled = true

@@ -18,6 +18,7 @@ distil_collector_container_name_base: "distil-collector"
 distil_collector_ssl_cacert: "{{ distil_ssl_cacert }}"
 
 # Distil Collector options.
+distil_collector_driver: "ceilometer"  # Available drivers: ceilometer (gnocchi coming soon)
 distil_collector_periodic_interval: 3600  # Collect usage at least once every hour.
 distil_collector_collect_window: 1  # Collect in 1 hour increments (1 hour every window).
 distil_collector_max_windows_per_cycle: 12  # Collect up to 12 windows per collection run.
