@@ -14,9 +14,6 @@ erp_driver = {{ distil_erp_driver }}
 # Only used when using the `distil-api` command directly (for development purposes only).
 host = {{ distil_api_address }}
 port = {{ distil_api_port }}
-# RBAC policy file.
-# Default is always policy.json.
-policy_file = policy.yaml
 
 [cache]
 enabled = true
@@ -71,3 +68,7 @@ ignore_products_in_quotations = {{ distil_api_ignore_products_in_quotations | jo
 {% else %}
 # ignore_products_in_quotations =
 {% endif %}
+
+[oslo_policy]
+# Default is always policy.json.
+policy_file = policy.yaml
