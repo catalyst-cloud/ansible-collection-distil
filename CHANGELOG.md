@@ -21,6 +21,7 @@ This release fixes a number of bugs\, and adds/modifies the options for the coll
 ### Minor Changes
 
 * Add a new <code>distil\_api\_url</code> inventory variable for dynamically generating \(or overriding\) the \"public facing\" Distil API URL\. <code>distil\_keystone\_endpoint\_url</code> now references this new variable\.
+* Add the <code>distil\_collector\_driver</code> inventory variable for changing the driver Distil Collector uses to back usage collection\.
 * Change the default value for <code>distil\_keystone\_user\_project</code> to <code>service</code>\, to make it easier to set up the collection to deploy to OpenStack deployments created using Kolla\-Ansible\.
 * Make it possible to dynamically configure the RBAC policy using the <code>distil\_rbac\_policy</code> inventory variable\.
 

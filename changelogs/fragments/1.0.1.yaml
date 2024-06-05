@@ -16,6 +16,9 @@ minor_changes:
   - >-
     Make it possible to dynamically configure the RBAC policy using the
     ``distil_rbac_policy`` inventory variable.
+  - >-
+    Add the ``distil_collector_driver`` inventory variable for changing the
+    driver Distil Collector uses to back usage collection.
 
 bugfixes:
   - >-
