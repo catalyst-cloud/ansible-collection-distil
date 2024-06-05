@@ -242,8 +242,10 @@ make sure the target hosts have at least one of the above groups assigned to it.
 * `distil_keystone_user_name` - Service username in Keystone. Default is `distil`.
 * `distil_keystone_user_password` - Password for the service user in Keystone. Should be defined in Ansible Vault.
 * `distil_keystone_user_email` - Email address for the service user in Keystone. Default is `distil@localhost`.
-* `distil_keystone_user_project` - The name of the default project for the service user in Keystone (and the service project to use in the service configuration). Default is `services`.
+* `distil_keystone_user_project` - The name of the default project for the service user in Keystone (and the service project to use in the service configuration). Default is `service`.
 * `distil_keystone_user_domain` - The name of the default domain for the service user in Keystone. Default is `Default`.
+* `distil_keystone_service_interfaces` - The interfaces to install the service on. Default is to install the service to the `public`, `internal` and `admin` interfaces.
+* `distil_keystone_endpoint_url` - Distil service endpoint URL. Default is to use the value for `distil_api_url`.
 * `distil_keystone_ansible_auth_cloud` - Optional variable for explicitly provided credentials to authenticate with Keystone in the target region, so Ansible can create service resources. Useful in CI environments. Default is to auto-fetch session environment variables defined in the Ansible controller's environment.
 
 #### Distil Manage configuration
@@ -252,17 +254,23 @@ make sure the target hosts have at least one of the above groups assigned to it.
 
 #### Distil API configuration
 
-* `distil_api_hostname` - Hostname for Distil API that clients should use.
-    * This is used to configure the service endpoints in Keystone.
+* `distil_api_address` - Bind address for Distil API. Default is `0.0.0.0`.
 * `distil_api_port` - Bind port for Distil API. Default is `9999`.
 * `distil_api_ssl_enable` - Bind Distil API to an SSL (HTTPS) port. Default is to use the value set in `distil_ssl_enable`.
 * `distil_api_ssl_cert` - SSL certificate location on the host for Distil API. Default is to use the value set in `distil_ssl_cert`.
 * `distil_api_ssl_key` - SSL private key location on the host for Distil API. Default is to use the value set in `distil_ssl_key`.
 * `distil_api_ssl_cacert` - CA certificate location on the host for Distil API. Default is to use the value set in `distil_ssl_cacert`.
+* `distil_api_hostname` - The public facing hostname for Distil API.
+* `distil_api_url` - The public facing URL for Distil API.
+  * This variable is used as the default value for `distil_keystone_endpoint_url`, which sets up the Keystone service endpoint URL for Distil.
+  * The default value is automatically generated using the values from `distil_api_hostname`, `distil_api_port` and `distil_api_ssl_enable`.
+  * Default is `https://{{ distil_api_hostname }}:{{ distil_api_port }}` when SSL is enabled, and `http://{{ distil_api_hostname }}:{{ distil_api_port }}` when SSL is disabled.
+  * If you are using an SSL terminating reverse proxy, you will want to set this value to the public facing HTTPS URL manually.
 * `distil_api_ignore_products_in_quotations` - List of products (services) to remove from quotations. Useful for hiding services that are being collected by Distil, but not yet charged. Default is to not remove any products.
 
 #### Distil Exporter configuration
 
+* `distil_exporter_address` - Bind address for Distil Exporter. Default is `0.0.0.0`.
 * `distil_exporter_port` - Bind port for Distil Exporter. Default is `16798`.
 * `distil_exporter_ssl_cacert` - CA certificate location on the host for Distil Exporter. Default is to use the value set in `distil_ssl_cacert`.
 
@@ -279,6 +287,7 @@ make sure the target hosts have at least one of the above groups assigned to it.
         * The oldest found `last_collected` value for the existing projects being serviced by this collector instance. If Keystone is used to create the project directly (and not via Adjutant), this is the one that will likely be used.
         * The maximum `last_collected` value for the current time, which is calculated from `distil_collector_max_collection_start_age`. The default value is 36 days, to allow for at least one month's worth of billing to be caught up if required. This serves as the fallback for when no better alternative is found, as it means the collector will spend some time catching up the project to the present.
 * `distil_collector_exporter_enable` - Enable Distil Collector Exporter, the Prometheus exporter within the Distil Collector service. Default is `true`.
+* `distil_collector_exporter_address` - Bind address for Distil Collector Exporter. Default is `0.0.0.0`.
 * `distil_collector_exporter_port` - The default port for Distil Collector Exporter. When using multiple collectors on the same host, define unique ports for each individual collector. Default is `16799`.
 
 #### Distil database configuration

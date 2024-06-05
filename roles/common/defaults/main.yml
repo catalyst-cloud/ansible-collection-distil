@@ -55,10 +55,18 @@ distil_database_connection_url: "{{ distil_database_protocol }}://\
   {% endif %}@{% endif %}\
   {{ distil_database_hosts | join(',') }}/{{ distil_database_name }}"
 
-# Distil API external hostname, bind address and listening port.
-distil_api_hostname: "localhost"
+# Distil API settings.
+# SSL settings. By default, use the global Distil values.
+distil_api_ssl_enable: "{{ distil_ssl_enable }}"
+distil_api_ssl_cert: "{{ distil_ssl_cert }}"
+distil_api_ssl_key: "{{ distil_ssl_key }}"
+distil_api_ssl_cacert: "{{ distil_ssl_cacert }}"
+# Bind address and port.
 distil_api_address: "0.0.0.0"
 distil_api_port: 9999
+# API hostname and URL. By default, the endpoint URL is constructed from other settings.
+distil_api_hostname: "localhost"
+distil_api_url: "{{ 'https' if distil_api_ssl_enable else 'http' }}://{{ distil_api_hostname }}:{{ distil_api_port }}"
 
 # Distil Collector settings.
 #
@@ -98,9 +106,10 @@ distil_keystone_auth_url: "http://api.example.com:5000"
 distil_keystone_auth_version: "v3"
 distil_keystone_auth_url_full: "{{ distil_keystone_auth_url }}/{{ distil_keystone_auth_version }}"
 
-# Distil Keystone user settings.
+# Distil Keystone settings.
 distil_keystone_user_name: "distil"
 distil_keystone_user_password: "123456"
 distil_keystone_user_email: "distil@localhost"
-distil_keystone_user_project: "services"
+distil_keystone_user_project: "service"
 distil_keystone_user_domain: "Default"
+distil_keystone_endpoint_url: "{{ distil_api_url }}"
