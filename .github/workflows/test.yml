@@ -36,12 +36,12 @@ jobs:
         env:
           FORCE_COLOR: "1"
       - name: Build collection
-        run: ansible-galaxy collection build --output-path catalystcloud-distil.tar.gz
+        run: ansible-galaxy collection build
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: build
-          path: catalystcloud-distil.tar.gz
+          path: catalystcloud-distil-*.tar.gz
           retention-days: 5
 
   molecule:
