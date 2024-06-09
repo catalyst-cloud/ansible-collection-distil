@@ -17,8 +17,6 @@ distil_keystone_service_interfaces:
   - "internal"
   - "public"
 
-distil_keystone_endpoint_url: "https://{{ distil_api_hostname }}:{{ distil_api_port }}"
-
 # When requiring explicit Keystone password auth, set the following variable.
 # To ignore OpenStack environment variables from other clouds, set load_envvars to false.
 # distil_keystone_ansible_auth_cloud:

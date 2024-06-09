@@ -6,7 +6,20 @@ distil_user_groups: []
 # The location to install the Distil logrotate configuration file.
 distil_logrotate_file: "/etc/logrotate.d/distil-logs"
 
+# The ERP driver to use for invoice and quotation handling in Distil API.
 distil_erp_driver: "jsonfile"  # Available drivers: jsonfile, odoo
+
+# The role-based access policy for Distil.
+distil_rbac_policy:
+  context_is_admin: 'role:admin'
+  responsible_for_billing: 'role:_member_ or role:billing or role:project_admin or role:project_mod'
+  admin_or_owner: 'role:admin or (project_id:%(project_id)s and rule:responsible_for_billing)'
+  default: 'rule:admin_or_owner'
+  'rating:credits:get': 'rule:admin_or_owner'
+  'rating:measurements:get': 'rule:admin_or_owner'
+  'rating:invoices:get': 'rule:admin_or_owner'
+  'rating:quotations:get': 'rule:admin_or_owner'
+  'health:get': 'rule:context_is_admin'
 
 # distil_api_address is managed by the common role.
 # distil_api_port is managed by the common role.

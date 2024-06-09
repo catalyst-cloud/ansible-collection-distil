@@ -8,7 +8,7 @@ debug = false
 log_dir = /var/log/distil
 # Distil service timezone.
 timezone = {{ distil_timezone }}
-# ERP driver to use when communicating with Distil.
+# The ERP driver to use for invoice and quotation handling in Distil API.
 erp_driver = {{ distil_erp_driver }}
 # Distil API bind address and port.
 # Only used when using the `distil-api` command directly (for development purposes only).
@@ -68,3 +68,7 @@ ignore_products_in_quotations = {{ distil_api_ignore_products_in_quotations | jo
 {% else %}
 # ignore_products_in_quotations =
 {% endif %}
+
+[oslo_policy]
+# Default is always policy.json.
+policy_file = policy.yaml
